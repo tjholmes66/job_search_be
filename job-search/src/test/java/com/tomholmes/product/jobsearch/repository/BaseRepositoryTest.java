@@ -1,12 +1,11 @@
 package com.tomholmes.product.jobsearch.repository;
 
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-import com.tomholmes.product.jobsearch.JobSearchApplication;
-
-@SpringBootTest(classes = JobSearchApplication.class)
-@Transactional
+@AutoConfigureTestDatabase(replace=Replace.NONE)
+@DataJpaTest
 public class BaseRepositoryTest
 {
     

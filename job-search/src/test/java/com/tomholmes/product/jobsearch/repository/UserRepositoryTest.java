@@ -17,7 +17,7 @@ import com.tomholmes.product.jobsearch.model.UserEntity;
 
 @AutoConfigureTestDatabase(replace=Replace.NONE)
 @DataJpaTest
-public class UserRepositoryImplTest
+public class UserRepositoryTest
 {
     @Autowired
     private UserRepository userRepository;

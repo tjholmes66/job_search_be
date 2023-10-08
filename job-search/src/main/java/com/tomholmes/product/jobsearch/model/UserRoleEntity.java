@@ -9,42 +9,44 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 /*
- * CREATE TABLE `role` (
+ * CREATE TABLE `user_role` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `role_enabled` tinyint NOT NULL DEFAULT '1',
-  `role_code` varchar(255) DEFAULT NULL,
-  `role_name` varchar(255) DEFAULT NULL,
+  `user_id` int NOT NULL,
+  `role_id` int NOT NULL,
   `entered_by` int NOT NULL DEFAULT '1',
-  `entered_date` datetime NOT NULL,
+  `entered_date` date NOT NULL,
   `edited_by` int NOT NULL DEFAULT '1',
-  `edited_date` datetime NOT NULL,
-  PRIMARY KEY (`role_id`,`entered_by`,`entered_date`,`edited_by`,`edited_date`),
-  UNIQUE KEY `uq_role_code` (`role_code`)
-) ENGINE=InnoDB AUTO_INCREMENT=707 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
+  `edited_date` date NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uq_user_role_idx` (`user_id`,`role_id`),
+  KEY `fk_role_user_id_idx` (`role_id`),
+  CONSTRAINT `fk_role` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`),
+  CONSTRAINT `fk_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
  */
 
 @SuppressWarnings("serial")
 @Entity
-@Table(name = "role")
-public class RoleEntity implements Serializable
+@Table(name = "user_role")
+public class UserRoleEntity implements Serializable
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private long Id;
-
-    @Column(name = "role_enabled")
-    private boolean enabled;
     
-    @Column(name = "role_code")
-    private String roleCode;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private UserEntity user;
     
-    @Column(name = "role_name")
-    private String roleName;
+    @ManyToOne
+    @JoinColumn(name = "role_id")
+    private RoleEntity role;
     
     @Column(name = "created_by")
     private long createdBy;
@@ -68,34 +70,24 @@ public class RoleEntity implements Serializable
         Id = id;
     }
 
-    public boolean isEnabled()
+    public UserEntity getUser()
     {
-        return enabled;
+        return user;
     }
 
-    public void setEnabled(boolean enabled)
+    public void setUser(UserEntity user)
     {
-        this.enabled = enabled;
+        this.user = user;
     }
 
-    public String getRoleCode()
+    public RoleEntity getRole()
     {
-        return roleCode;
+        return role;
     }
 
-    public void setRoleCode(String roleCode)
+    public void setRole(RoleEntity role)
     {
-        this.roleCode = roleCode;
-    }
-
-    public String getRoleName()
-    {
-        return roleName;
-    }
-
-    public void setRoleName(String roleName)
-    {
-        this.roleName = roleName;
+        this.role = role;
     }
 
     public long getCreatedBy()
@@ -141,7 +133,7 @@ public class RoleEntity implements Serializable
     @Override
     public int hashCode()
     {
-        return Objects.hash(Id, createdBy, createdDate, enabled, roleCode, roleName, updatedBy, updatedDate);
+        return Objects.hash(Id, createdBy, createdDate, role, updatedBy, updatedDate, user);
     }
 
     @Override
@@ -153,17 +145,18 @@ public class RoleEntity implements Serializable
             return false;
         if (getClass() != obj.getClass())
             return false;
-        RoleEntity other = (RoleEntity) obj;
-        return Id == other.Id && createdBy == other.createdBy && Objects.equals(createdDate, other.createdDate) && enabled == other.enabled && Objects.equals(roleCode, other.roleCode)
-            && Objects.equals(roleName, other.roleName) && updatedBy == other.updatedBy && Objects.equals(updatedDate, other.updatedDate);
+        UserRoleEntity other = (UserRoleEntity) obj;
+        return Id == other.Id && createdBy == other.createdBy && Objects.equals(createdDate, other.createdDate) && Objects.equals(role, other.role) && updatedBy == other.updatedBy
+            && Objects.equals(updatedDate, other.updatedDate) && Objects.equals(user, other.user);
     }
 
     @Override
     public String toString()
     {
-        return "RoleEntity [Id=" + Id + ", enabled=" + enabled + ", roleCode=" + roleCode + ", roleName=" + roleName + ", createdBy=" + createdBy + ", createdDate=" + createdDate + ", updatedBy="
-            + updatedBy + ", updatedDate=" + updatedDate + "]";
+        return "UserRoleEntity [Id=" + Id + ", user=" + user + ", role=" + role + ", createdBy=" + createdBy + ", createdDate=" + createdDate + ", updatedBy=" + updatedBy + ", updatedDate="
+            + updatedDate + "]";
     }
-    
+
+  
     
 }
