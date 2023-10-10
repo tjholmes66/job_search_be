@@ -9,7 +9,7 @@ import com.tomholmes.product.jobsearch.model.UserEntity;
 import com.tomholmes.product.jobsearch.repository.UserRepository;
 
 @Transactional
-@Service("userService")
+@Service
 public class UserServiceImpl implements UserService
 {
     private UserRepository userRepository;
