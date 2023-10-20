@@ -9,6 +9,7 @@ public class FibSequence
     
     public static void printFibonacci(int count)
     {    
+       // 0 1 1 2 3 5 8 13 21 34 = count 10
        if(count>0)
        {    
             n3 = n1 + n2;    
@@ -64,16 +65,30 @@ public class FibSequence
         return sb.toString();
     }
     
+    public static void reverseString(char[] s) {
+        for(int i=0; i < s.length / 2 ; i++) {
+            System.out.println("i=" + i + ", val=" + s[i] );
+            char x = s[i];
+            s[i] = s[s.length-1-i];
+            s[s.length-1-i] = x;
+            System.out.println(s);
+        }
+    }
+    
     public static void main(String args[]){    
-        //int count=10;    
-        //System.out.print(n1+" "+n2);//printing 0 and 1    
-        //printFibonacci(count-2);//n-2 because 2 numbers are already printed   
+        // int count=10;    
+        // System.out.print(n1+" "+n2);//printing 0 and 1    
+        // printFibonacci(count-2);//n-2 because 2 numbers are already printed   
            
-         int[] nums = {1,7,15,11};
-         int target = 18;
-         twoSum(nums, target);
+         //int[] nums = {1,7,15,11};
+         //int target = 18;
+         //twoSum(nums, target);
         
         // reverseWords("the sky is blue");
+     
+           char[] s  = {'h', 'e', 'l', 'l', 'o'};
+           reverseString(s);
+           
        }  
   
 }
