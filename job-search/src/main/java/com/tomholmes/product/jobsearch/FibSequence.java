@@ -7,11 +7,9 @@ public class FibSequence
 {
     static int n1=0,n2=1,n3=0;    
     
-    public static void printFibonacci(int count)
-    {    
+    public static void printFibonacci(int count) {    
        // 0 1 1 2 3 5 8 13 21 34 = count 10
-       if(count>0)
-       {    
+       if(count>0) {    
             n3 = n1 + n2;    
             n1 = n2;    
             n2 = n3;    
@@ -31,8 +29,6 @@ public class FibSequence
         return new int[]{-1, -1};
     }
     
-  
-    
     public static boolean canConstruct(String ransomNote, String magazine) {
         Map<Character, Integer> magazineMap = new HashMap<>();
         boolean result = false;
@@ -50,14 +46,12 @@ public class FibSequence
              Character ransomeNoteLetter = ransomNote.charAt(i);
              result = magazineMap.containsKey(ransomeNoteLetter) ? true : false;
         }
-
         return result;
     }
     
     public static String reverseWords(String s) {
         String[] words = s.split(" ");
         StringBuffer sb = new StringBuffer();
-
         for( int i = words.length-1; i >= 0 ; i--) {
             System.out.println("i=" + i + ", word=" + words[i]);
             sb.append(  words[i].trim()   );
