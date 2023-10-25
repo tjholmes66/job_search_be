@@ -9,7 +9,10 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tomholmes.product.jobsearch.model.CompanyEntity;
+import com.tomholmes.product.jobsearch.utils.JobSearchUtils;
 
 @AutoConfigureTestDatabase(replace=Replace.NONE)
 @DataJpaTest
@@ -21,8 +24,19 @@ public class CompanyRepositoryTest
     @Test
     public void testFindById() {
         long id = 1;
-        CompanyEntity roleEntity = repository.findById(id).orElse(null);
-        assertNotNull(roleEntity);
-        assertEquals(id, roleEntity.getId());
+        CompanyEntity companyEntity = repository.findById(id).orElse(null);
+        assertNotNull(companyEntity);
+        assertEquals(id, companyEntity.getId());
+    }
+    
+    @Test
+    public void testFindById_JSON() throws JsonProcessingException {
+        long id = 1;
+        CompanyEntity companyEntity = repository.findById(id).orElse(null);
+        assertNotNull(companyEntity);
+        assertEquals(id, companyEntity.getId());
+        ObjectMapper mapper = JobSearchUtils.getObjectMapper();
+        String json = mapper.writeValueAsString(companyEntity);
+        System.out.println(json);
     }
 }
