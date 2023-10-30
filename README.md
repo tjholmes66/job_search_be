@@ -13,7 +13,9 @@ This is my new Fall and Winter 2023 project, and I intend to eat my own dog food
 # Docker
 to Build the app, here is the command I've been using
  - docker build -t job_search_api .
+ - 
 and then to run the docker application
+
 - docker run -p 8000:8080 job_search_api
 
 
