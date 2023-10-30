@@ -111,6 +111,9 @@
 	</dependencies>
 
 	<build>
+		
+		<finalName>job-search-app</finalName>
+		
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
