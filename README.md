@@ -9,3 +9,13 @@ AsI job search, I run across companies that have different processes.  As a soft
 I want to know what their process is, and how long the process takes.   This is a job search tool for us 'software developers' and not for companies and not for recruiters, but for us.
 
 This is my new Fall and Winter 2023 project, and I intend to eat my own dog food.
+
+# Docker
+to Build the app, here is the command I've been using
+ - docker build -t job_search_api .
+and then to run the docker application
+- docker run -p 8000:8080 job_search_api
+
+
+
+
