@@ -1,0 +1,10 @@
+services:
+  mysql:
+    image: 'mysql:latest'
+    environment:
+      - 'MYSQL_DATABASE=job_search_db'
+      - 'MYSQL_PASSWORD=passw0rd'
+      - 'MYSQL_ROOT_PASSWORD=passw0rd'
+      - 'MYSQL_USER=job_search_user'
+    ports:
+      - '33060'
