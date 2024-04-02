@@ -1,4 +1,4 @@
-package com.tomholmes.product.jobsearch.rest;
+package com.tomholmes.product.jobsearch.rest.ws;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;

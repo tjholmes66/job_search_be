@@ -1,4 +1,4 @@
-package com.tomholmes.product.jobsearch.rest;
+package com.tomholmes.product.jobsearch.rest.ws;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
