@@ -38,7 +38,7 @@ public class ApplicationNoteEntity implements Serializable
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private long id;
+    private Long id;
     
     // `application_id` int DEFAULT NULL,
     @ManyToOne

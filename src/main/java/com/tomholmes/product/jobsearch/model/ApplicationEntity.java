@@ -46,7 +46,7 @@ public class ApplicationEntity implements Serializable
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private long id;
+    private Long id;
     
     // `user_id` int DEFAULT NULL,
     @ManyToOne

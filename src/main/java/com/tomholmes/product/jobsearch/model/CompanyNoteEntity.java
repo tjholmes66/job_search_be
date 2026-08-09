@@ -37,7 +37,7 @@ public class CompanyNoteEntity implements Serializable
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private long id;
+    private Long id;
     
     //`company_id` int NOT NULL,
     @ManyToOne

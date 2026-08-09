@@ -35,7 +35,7 @@ public class RoleEntity implements Serializable
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private long Id;
+    private Long Id;
 
     @Column(name = "role_enabled")
     private boolean enabled;
