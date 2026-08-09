@@ -7,4 +7,4 @@ services:
       - 'MYSQL_ROOT_PASSWORD=passw0rd'
       - 'MYSQL_USER=job_search_user'
     ports:
-      - '33060'
+      - '3306'

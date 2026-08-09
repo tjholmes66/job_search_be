@@ -2,12 +2,16 @@ package com.tomholmes.product.jobsearch.service;
 
 import com.tomholmes.product.jobsearch.model.CompanyEntity;
 
+import java.util.List;
+
 public interface CompanyService
 {
     // CREATE
     CompanyEntity createCompany(CompanyEntity newEntity);
 
     // RETRIEVE
+    List<CompanyEntity> getAllCompanies();
+
     CompanyEntity getById(long id);
 
     // UPDATE

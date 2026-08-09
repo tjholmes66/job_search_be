@@ -18,7 +18,7 @@ import com.tomholmes.product.jobsearch.model.CompanyEntity;
 
 public class CompanyControllerTest extends BaseControllerTests
 {
-    private final static String BASE_URL = "/v1/company";
+    private final static String BASE_URL = "/api/v1/company";
     private final static String CREATE_URL = "/create";
     
     ObjectMapper mapper = makeMapper();

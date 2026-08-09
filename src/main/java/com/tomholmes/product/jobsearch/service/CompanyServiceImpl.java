@@ -1,6 +1,7 @@
 package com.tomholmes.product.jobsearch.service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,7 +19,13 @@ public class CompanyServiceImpl implements CompanyService
     public CompanyServiceImpl(CompanyRepository companyRepository) {
         this.companyRepository = companyRepository;
     }
-    
+
+    @Override
+    public List<CompanyEntity> getAllCompanies() {
+        List<CompanyEntity> companyEntityList = companyRepository.findAll();
+        return companyEntityList;
+    }
+
     @Override
     public CompanyEntity getById(long id)
     {

@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,14 @@ public class CompanyServiceTest extends BaseServiceTests
 
     @Autowired
     private CompanyService service;
+
+    @Test
+    public void testGetAllCompanies()
+    {
+        List<CompanyEntity> allCompanies = service.getAllCompanies();
+        assertNotNull(allCompanies);
+        assertEquals(allCompanies.size() > 0, true);
+    }
     
     @Test
     public void testFindCompanyById() {
