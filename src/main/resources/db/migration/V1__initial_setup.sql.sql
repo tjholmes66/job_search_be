@@ -25,19 +25,19 @@ DROP TABLE IF EXISTS `application`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `application` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `user_id` int DEFAULT NULL,
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `user_id` bigint DEFAULT NULL,
   `rejected` tinyint NOT NULL DEFAULT '0',
   `rejected_date` datetime DEFAULT NULL,
   `recruiter_name` varchar(145) DEFAULT NULL,
   `recruiter_company` varchar(45) DEFAULT NULL,
-  `company_id` int NOT NULL,
+  `company_id` bigint NOT NULL,
   `company_job_id` varchar(45) DEFAULT NULL,
   `hiring_manager` varchar(45) DEFAULT NULL,
   `application_date` datetime NOT NULL,
-  `created_by` int NOT NULL DEFAULT '1',
+  `created_by` bigint NOT NULL DEFAULT '1',
   `created_date` datetime NOT NULL,
-  `updated_by` int NOT NULL DEFAULT '1',
+  `updated_by` bigint NOT NULL DEFAULT '1',
   `updated_date` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_user_id_idx` (`user_id`),
@@ -66,14 +66,14 @@ DROP TABLE IF EXISTS `application_note`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `application_note` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `application_id` int NOT NULL,
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `application_id` bigint NOT NULL,
   `note_date` datetime NOT NULL,
   `notes` text NOT NULL,
   `private` tinyint NOT NULL DEFAULT '1',
-  `created_by` int NOT NULL DEFAULT '1',
+  `created_by` bigint NOT NULL DEFAULT '1',
   `created_date` datetime NOT NULL,
-  `updated_by` int NOT NULL DEFAULT '1',
+  `updated_by` bigint NOT NULL DEFAULT '1',
   `Updated_date` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_appnote_app_idx` (`application_id`),
@@ -99,7 +99,7 @@ DROP TABLE IF EXISTS `company`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `company` (
-  `id` int NOT NULL AUTO_INCREMENT,
+  `id` bigint NOT NULL AUTO_INCREMENT,
   `company_name` varchar(545) NOT NULL,
   `active` tinyint NOT NULL DEFAULT '1',
   `take_home_test` tinyint NOT NULL DEFAULT '0',
@@ -113,9 +113,9 @@ CREATE TABLE `company` (
   `recruiter_name` varchar(45) DEFAULT NULL,
   `recruiter_email` varchar(45) DEFAULT NULL,
   `recruiter_phone` varchar(45) DEFAULT NULL,
-  `created_by` int NOT NULL DEFAULT '1',
+  `created_by` bigint NOT NULL DEFAULT '1',
   `created_date` datetime NOT NULL,
-  `updated_by` int NOT NULL DEFAULT '1',
+  `updated_by` bigint NOT NULL DEFAULT '1',
   `updated_date` datetime NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -139,14 +139,14 @@ DROP TABLE IF EXISTS `company_note`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `company_note` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `company_id` int NOT NULL,
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `company_id` bigint NOT NULL,
   `note_date` datetime NOT NULL,
   `private` tinyint NOT NULL DEFAULT '1',
   `notes` text NOT NULL,
-  `created_by` int NOT NULL DEFAULT '1',
+  `created_by` bigint NOT NULL DEFAULT '1',
   `created_date` datetime NOT NULL,
-  `updated_by` int NOT NULL DEFAULT '1',
+  `updated_by` bigint NOT NULL DEFAULT '1',
   `updated_date` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_company_note_company_idx` (`company_id`),
@@ -172,13 +172,13 @@ DROP TABLE IF EXISTS `role`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `role` (
-  `id` int NOT NULL AUTO_INCREMENT,
+  `id` bigint NOT NULL AUTO_INCREMENT,
   `role_enabled` tinyint NOT NULL DEFAULT '1',
   `role_code` varchar(255) DEFAULT NULL,
   `role_name` varchar(255) DEFAULT NULL,
-  `created_by` int NOT NULL DEFAULT '1',
+  `created_by` bigint NOT NULL DEFAULT '1',
   `created_date` datetime NOT NULL,
-  `updated_by` int NOT NULL DEFAULT '1',
+  `updated_by` bigint NOT NULL DEFAULT '1',
   `updated_date` datetime NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `uq_role_code` (`role_code`)
@@ -203,16 +203,16 @@ DROP TABLE IF EXISTS `user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `user` (
-  `id` int NOT NULL AUTO_INCREMENT,
+  `id` bigint NOT NULL AUTO_INCREMENT,
   `enabled` tinyint NOT NULL DEFAULT '1',
   `username` varchar(45) NOT NULL,
   `email` varchar(45) NOT NULL,
   `cell_phone` varchar(45) NOT NULL,
   `first_name` varchar(45) NOT NULL,
   `last_name` varchar(45) NOT NULL,
-  `created_by` int NOT NULL DEFAULT '1',
+  `created_by` bigint NOT NULL DEFAULT '1',
   `created_date` datetime NOT NULL,
-  `updated_by` int NOT NULL DEFAULT '1',
+  `updated_by` bigint NOT NULL DEFAULT '1',
   `updated_date` datetime NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=129 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -236,12 +236,12 @@ DROP TABLE IF EXISTS `user_role`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `user_role` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `user_id` int NOT NULL,
-  `role_id` int NOT NULL,
-  `created_by` int NOT NULL,
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `user_id` bigint NOT NULL,
+  `role_id` bigint NOT NULL,
+  `created_by` bigint NOT NULL,
   `created_date` datetime NOT NULL,
-  `updated_by` int NOT NULL,
+  `updated_by` bigint NOT NULL,
   `updated_date` datetime NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `uq_user_role_idx` (`user_id`,`role_id`),
