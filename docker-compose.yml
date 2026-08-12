@@ -7,10 +7,15 @@ services:
       - 'MYSQL_PASSWORD=passw0rd'
       - 'MYSQL_ROOT_PASSWORD=passw0rd'
       - 'MYSQL_USER=job_search_user'
+    
+    # Added Platform for my local setup
+    platform: linux/amd64 
+    
     ports:
-      - '33060:3306'
+      - '3306:3306'
     volumes:
       - mysql-data:/var/lib/mysql
+      - ./job_search_db.sql:/docker-entrypoint-initdb.d/job_search_db.sql
     healthcheck:
         test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
         timeout: 5s
@@ -22,12 +27,13 @@ services:
         container_name: spring-app-container
         ports:
           - "8080:8080"
+        platform: linux/amd64
         depends_on:
           mysqldb:
             condition: service_healthy
         environment:
           # Use the docker service name (mysqldb) instead of localhost
-          SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:33060/my_application_db?allowPublicKeyRetrieval=true&useSSL=false
+          SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/job_search_db?allowPublicKeyRetrieval=true&useSSL=false
           SPRING_DATASOURCE_USERNAME: job_search_user
           SPRING_DATASOURCE_PASSWORD: passw0rd
 
