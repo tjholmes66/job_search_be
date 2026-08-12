@@ -130,6 +130,28 @@
 		
 		<plugins>
 			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>3.5.0</version>
+				<executions>
+					<execution>
+						<id>start-docker-db</id>
+						<phase>test-compile</phase> <!-- Triggers right before tests run -->
+						<goals>
+							<goal>exec</goal>
+						</goals>
+						<configuration>
+							<!-- On Mac/Linux use executable 'docker'. On Windows use 'docker.exe' -->
+							<executable>docker-compose</executable>
+							<arguments>
+								<argument>up</argument>
+								<argument>-d</argument>
+							</arguments>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
