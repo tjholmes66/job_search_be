@@ -1,20 +1,17 @@
 package com.tomholmes.product.jobsearch.service;
-import java.time.LocalDateTime;
 import java.util.List;
-
 import com.tomholmes.product.jobsearch.model.CompanyVotingEntity;
-import com.tomholmes.product.jobsearch.model.UserEntity;
 import com.tomholmes.product.jobsearch.repository.CompanyVotingRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import com.tomholmes.product.jobsearch.model.CompanyEntity;
-import com.tomholmes.product.jobsearch.repository.CompanyRepository;
+
 
 @Service
 @Transactional
 public class CompanyVotingServiceImpl implements CompanyVotingService {
 
     private CompanyVotingRepository companyVotingRepository;
+    public CompanyVotingServiceImpl(CompanyVotingRepository companyVotingRepository) { this.companyVotingRepository = companyVotingRepository; }
 
     @Override
     public CompanyVotingEntity createGhostVote(CompanyVotingEntity newGhostVote) {
