@@ -29,7 +29,7 @@ public class CompanyVotingRepositoryTest extends BaseRepositoryTest {
     }
 
     @Test
-    public void testFindGhostVotesByUserId() {
+    public void testFindGhostVotes() {
         long ghost_vote = 1;
         List<CompanyVotingEntity> ghostVotes = repository.getGhostUpvote(ghost_vote);
         assertNotNull(ghostVotes);
