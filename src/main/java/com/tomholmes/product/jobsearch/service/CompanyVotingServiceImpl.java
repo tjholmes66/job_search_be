@@ -18,19 +18,19 @@ public class CompanyVotingServiceImpl implements CompanyVotingService {
 
     @Override
     public CompanyVotingEntity createGhostVote(CompanyVotingEntity newGhostVote) {
-        CompanyVotingEntity createGhostVote = CompanyVotingEntity.save(newGhostVote);
+        CompanyVotingEntity createGhostVote = companyVotingRepository.save(newGhostVote);
         return createGhostVote;
     }
 
     @Override
     public CompanyVotingEntity createUpVote(CompanyVotingEntity newUpVote) {
-        CompanyVotingEntity createUpVote = CompanyVotingEntity.save(newUpVote);
-        return createGhostVote;
+        CompanyVotingEntity createUpVote = companyVotingRepository.save(newUpVote);
+        return createUpVote;
     }
 
     @Override
     public CompanyVotingEntity createDownVote(CompanyVotingEntity newDownVote) {
-        CompanyVotingEntity createDownVote = CompanyVotingEntity.save(newDownVote);
+        CompanyVotingEntity createDownVote = companyVotingRepository.save(newDownVote);
         return createDownVote;
     }
 
