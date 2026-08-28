@@ -78,7 +78,7 @@ public class CompanyVotingEntity implements Serializable {
         this.company = company;
     }
 
-    public long getGhostUpvote() { return ghost_upvote; }
+    public long getGhost_upvote() { return ghost_upvote; }
 
     public void setGhostUpvote(long ghost_upvote)
     {

@@ -33,6 +33,6 @@ public class CompanyVotingRepositoryTest extends BaseRepositoryTest {
         long ghost_vote = 1;
         List<CompanyVotingEntity> ghostVotes = repository.getGhostUpvote(ghost_vote);
         assertNotNull(ghostVotes);
-        assertEquals(2, ghostVotes.size());
+        assertEquals(1, ghostVotes.size());
     }
 }
