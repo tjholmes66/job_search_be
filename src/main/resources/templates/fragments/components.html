@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+    <script type="text/javascript" th:src="@{/webjars/htmx.org/dist/htmx.min.js}"></script>
+</head>
+<body>
+
+<!-- This block is what gets extracted and sent to the browser -->
+<div th:fragment="itemList">
+    <h3>Updated Item List</h3>
+    <ul>
+        <li th:each="item : ${items}" th:text="${item}">Sample Item</li>
+    </ul>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+    <title>Spring Boot + Thymeleaf + htmx</title>
+    <!-- Include htmx from a CDN -->
+    <script src="https://unpkg.com"></script>
+    <style>
+        body { font-family: sans-serif; margin: 40px; }
+        .search-box { margin-bottom: 20px; padding: 8px; width: 250px; }
+        ul { list-style: none; padding: 0; }
+        li { padding: 8px; border-bottom: 1px solid #eee; width: 250px; }
+    </style>
+</head>
+<body>
+
+<h2>User Directory</h2>
+
+<!-- htmx Attributes:
+     hx-get: Sends an AJAX GET request to the backend as the user types
+     hx-trigger: Fires on 'keyup', but waits 300ms (debounce) so it doesn't flood the server
+     hx-target: Directs the HTML response to overwrite the element matching this ID
+     name="q": Map this input automatically to the @RequestParam("q") in Java
+-->
+<label>
+    <input type="text"
+           name="q"
+           placeholder="Type to filter users..."
+           class="search-box"
+           hx-get="/users/search"
+           hx-trigger="keyup changed delay:300ms"
+           hx-target="#search-results" />
+</label>
+
+<!-- Container that htmx will swap the response into -->
+<div id="search-results">
+    <!-- Define the fragment that can be returned independently by the server -->
+    <ul th:fragment="user-list">
+        <li th:each="user : ${users}" th:text="${user}">User Name</li>
+        <li th:if="${#lists.isEmpty(users)}">No users found.</li>
+    </ul>
+</div>
+
+</body>
+</html>
