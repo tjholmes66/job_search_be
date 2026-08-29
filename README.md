@@ -24,3 +24,16 @@ but I also wanted to learn how to use JetBrains IntelliJ IDE as well since a lot
 8. I intend to have a separate repository for an HTMX front-end.
 9. I intend to use Docker to run both my Database and Application in Docker Containers.
 10. I intend to use Kubernetes to bundle the Docker containers.
+
+UPDATE: 2026-08-27
+I have reviewed the differences between using KeyCloak and Auth0.
+I have decided to use Keycloak and at this time, it is the DEV version which is using H2 memory DB.
+This is recommended for DEV and will NOT be used in Production.
+The command to run this is as follows:
+docker run -p 127.0.0.1:9000:8080 
+-e KC_BOOTSTRAP_ADMIN_USERNAME=admin -e KC_BOOTSTRAP_ADMIN_PASSWORD=admin
+--network my-network quay.io/keycloak/keycloak:26.7.2 start-dev
+The port 9000 is because my running app will need port 8080.
+Also, we want the app to use the keycloak with the network, so it will be on the same network.
+
+

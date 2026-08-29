@@ -1,4 +1,4 @@
-package com.tomholmes.product.jobsearch.rest.ws;
+package com.tomholmes.product.jobsearch.web.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

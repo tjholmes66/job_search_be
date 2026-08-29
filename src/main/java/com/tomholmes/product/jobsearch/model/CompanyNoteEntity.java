@@ -78,10 +78,7 @@ public class CompanyNoteEntity implements Serializable
         this.id = id;
     }
 
-    public CompanyEntity getCompany()
-    {
-        return company;
-    }
+    public CompanyEntity getCompany() { return company; }
 
     public void setCompany(CompanyEntity company)
     {

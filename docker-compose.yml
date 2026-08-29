@@ -16,6 +16,8 @@ services:
     volumes:
       - mysql-data:/var/lib/mysql
       - ./job_search_db.sql:/docker-entrypoint-initdb.d/job_search_db.sql
+     # - ./provision_users.sql:/docker-entrypoint-initdb.d/01-provision_users.sql
+      - ./src/main/resources/db/migration:/docker-entrypoint-initdb.d
     healthcheck:
         test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
         timeout: 5s
