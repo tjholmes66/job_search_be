@@ -1,0 +1,29 @@
+meta {
+  name: Login via Keycloak
+  type: http
+  seq: 3
+}
+
+post {
+  url: http://localhost:9000/realms/job_search_realm/protocol/openid-connect/token
+  body: formUrlEncoded
+  auth: none
+}
+
+headers {
+  Content-Type: application/x-www-form-urlencoded
+}
+
+body:form-urlencoded {
+  client_id: job_search_client
+  username: ryekayo85@gmail.com
+  password: passw0rd
+  grant_type: password
+  scope: openid
+  client_secret: fATsjV8roXomG16FeaNSjAImhQj4sTjnaquoNXIPwqznKkXgUvkPT2TCYtrEMrS9CXPoPeKgiTHQ47FRfc6iMx
+}
+
+script:post-response {
+  bru.setVar("my_token", res.body.access_token);
+  
+}
