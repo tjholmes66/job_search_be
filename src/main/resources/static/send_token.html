@@ -1,0 +1,43 @@
+<script>
+    // Helper function to read your auth cookie
+    function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+    }
+
+    // Keycloak details
+    const KEYCLOAK_AUTH_URL = "http://localhost:9000/realms/job_search_realm/protocol/openid-connect/auth";
+    const CLIENT_ID = "job_search_client";
+    const REDIRECT_URI = encodeURIComponent(window.location.origin + "/callback.html");
+
+    function redirectToKeycloak() {
+        // Clear any broken/expired local cookies first
+        document.cookie = "KEYCLOAK_JWT=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+
+        // Push user to Keycloak login page
+        window.location.href = `${KEYCLOAK_AUTH_URL}?client_id=${CLIENT_ID}&response_type=code&scope=openid&redirect_uri=${REDIRECT_URI}`;
+    }
+
+    // 1. Inject the Bearer Token automatically into all outgoing HTMX requests
+    document.addEventListener('htmx:configRequest', (event) => {
+        const token = getCookie('KEYCLOAK_JWT');
+        if (token) {
+            event.detail.headers['Authorization'] = 'Bearer ' + token;
+        } else {
+            // Prevent request and go straight to login if cookie doesn't exist
+            event.preventDefault();
+            redirectToKeycloak();
+        }
+    });
+
+    // 2. Intercept 401/403 API responses globally
+    document.addEventListener('htmx:responseError', function(event) {
+        const statusCode = event.detail.xhr.status;
+
+        if (statusCode === 401 || statusCode === 403) {
+            console.warn("Unauthorized API call. Sending to Keycloak...");
+            redirectToKeycloak();
+        }
+    });
+</script>

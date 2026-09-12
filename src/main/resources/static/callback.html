@@ -3,11 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <title>Authenticating...</title>
-    <script src="/js/callback.js" defer></script>
 </head>
 <body>
-<div style="text-align: center; margin-top: 20%;">
-    <h2>Completing login, please wait...</h2>
-</div>
+<p>Completing login, please wait...</p>
+
+<script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const code = urlParams.get('code');
+
+    if (code) {
+        // Keycloak configurations
+        const keycloakUrl = "http://localhost:9000/realms/job_search_realm/protocol/openid-connect/token";
+        const clientId = "job_search_client"; // Ensure client is configured as 'Public' in Keycloak
+        const redirectUri = window.location.origin + "/callback.html";
+
+        // Exchange authorization code for tokens
+        const body = new URLSearchParams({
+            grant_type: 'authorization_code',
+            client_id: clientId,
+            code: code,
+            redirect_uri: redirectUri
+        });
+
+        fetch(keycloakUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: body
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.access_token) {
+                    // Save JWT in a secure cookie (Set Max-Age based on Keycloak token lifespan)
+                    document.cookie = `KEYCLOAK_JWT=${data.access_token}; path=/; max-age=${data.expires_in}; SameSite=Lax`;
+
+                    // Redirect back to the main UI page
+                    window.location.href = "/index.html";
+                } else {
+                    console.error("Failed to retrieve token", data);
+                }
+            })
+            .catch(err => console.error("Error during token exchange:", err));
+    } else {
+        window.location.href = "/index.html";
+    }
+</script>
 </body>
 </html>
