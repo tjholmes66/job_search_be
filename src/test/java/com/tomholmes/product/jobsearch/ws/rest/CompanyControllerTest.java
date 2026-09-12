@@ -1,4 +1,4 @@
-package com.tomholmes.product.jobsearch.rest.ws;
+package com.tomholmes.product.jobsearch.ws.rest;
 
 import static org.junit.Assert.assertNotNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;

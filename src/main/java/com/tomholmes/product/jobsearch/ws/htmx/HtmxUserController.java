@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
-public class HtmxController {
+public class HtmxUserController {
 
     // Mock data source
     private final List<String> users = List.of("Alice Smith", "Bob Jones", "Charlie Brown", "Diana Prince");
@@ -17,7 +17,7 @@ public class HtmxController {
     @GetMapping("/")
     public String index(Model model) {
         model.addAttribute("users", users);
-        return "index";
+        return "users_ee";
     }
 
     // 2. Renders ONLY the user-list fragment for an htmx request
@@ -30,6 +30,6 @@ public class HtmxController {
         model.addAttribute("users", filteredUsers);
 
         // Returns "templateName :: fragmentName"
-        return "index :: user-list";
+        return "users_ee :: user-list";
     }
 }
