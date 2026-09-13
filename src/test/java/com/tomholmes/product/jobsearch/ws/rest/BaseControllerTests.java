@@ -24,12 +24,9 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
 import com.tomholmes.product.jobsearch.model.UserEntity;
 import com.tomholmes.product.jobsearch.repository.UserRepository;
+import tools.jackson.databind.ObjectMapper;
 
 @SpringBootTest
 @Transactional
@@ -77,9 +74,6 @@ public class BaseControllerTests
     public static final ObjectMapper makeMapper()
     {
         ObjectMapper _mapper = new ObjectMapper();
-        _mapper.registerModule(new ParameterNamesModule());
-        _mapper.registerModule(new Jdk8Module());
-        _mapper.registerModule(new JavaTimeModule());
         return _mapper;
     }
 

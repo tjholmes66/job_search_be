@@ -18,23 +18,25 @@ public class SecurityConfig {
         http
                 // 1. Configure URL authorization rules
                 .authorizeHttpRequests(auth -> auth
-                        // Allow public access explicitly to your static callback file
-                        // 1. Permit the root path and index.html explicitly
-                        .requestMatchers("/", "/static/**","/index.html").permitAll()
-
-                        // 2. Permit common static folders (css, js, images, etc.)
+                        // Allow public access to landing pages and static assets
+                        .requestMatchers("/", "/index.html", "/static/**").permitAll()
                         .requestMatchers("/css/**", "/js/**", "/images/**", "/favicon.ico").permitAll()
-                        .requestMatchers("/callback.html", "/resources/static/callback.html").permitAll()
-                        .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
+
+                        // ONLY protect the Controller endpoint.
+                        // Do NOT include "/dashboard.html" here if it lives in /templates/
+                        .requestMatchers("/dashboard").authenticated()
 
                         // Require authentication for everything else (APIs, endpoints, etc.)
                         .anyRequest().authenticated()
                 )
+                // 2. Configure OAuth2 Login
                 .oauth2Login(oauth2 -> oauth2
-                        .loginPage("/") // Prevents Spring from auto-redirecting to /login
-                        .defaultSuccessUrl("/callback.html", true)
+                        // If OAuth2 fails, seamlessly send them back to your index page with a message
+                        .failureUrl("/index.html?error=true")
+                        // When login succeeds, hit your backend controller route
+                        .defaultSuccessUrl("/dashboard", true)
                 )
-                // Explicitly configures CSRF protection to use a cookie readable by JavaScript
+                // 3. Configure CSRF protection
                 .csrf(csrf -> csrf
                         .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
                         .csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler())
@@ -42,5 +44,6 @@ public class SecurityConfig {
 
         return http.build();
     }
+
 
 }
