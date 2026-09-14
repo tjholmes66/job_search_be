@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+    <title>Job Search ATS Dashboard</title>
+
+    <!-- 1. Inject the Spring CSRF Token values securely -->
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+
+    <!-- 2. Include standard HTMX -->
+    <script src="https://unpkg.com"></script>
+
+    <!-- 3. Link your external static JS file -->
+    <script th:src="@{/htmx-csrf.js}" defer></script>
+    <style>
+        body { font-family: sans-serif; margin: 40px; }
+        .search-box { margin-bottom: 20px; padding: 8px; width: 250px; }
+        ul { list-style: none; padding: 0; }
+        li { padding: 8px; border-bottom: 1px solid #eee; width: 250px; }
+    </style>
+</head>
+<body>
+
+<p>Job Search ATS Dashboard</p>
+
+<h1>Job Search ATS Dashboard</h1>
+
+<h2>Finished and Logged In!</h2>
+
+<div>
+    <p><strong>Full Name:</strong> <span th:text="${name}">Guest User</span></p>
+    <p><strong>Email Address:</strong> <span th:text="${email}">No email provided</span></p>
+    <p><strong>Username:</strong> <span th:text="${username}">anonymous</span></p>
+</div>
+
+<!-- Replace with your actual Keycloak host and realm -->
+<a href="http://localhost:9000/realms/job_search_realm/account"
+   target="_blank"
+   class="btn-profile">
+    Manage Account & Password
+</a>
+
+</body>
+</html>
