@@ -3,7 +3,6 @@ package com.tomholmes.product.jobsearch.config;
 import com.tomholmes.product.jobsearch.utils.KeycloakRoleConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserRequest;
@@ -41,6 +40,10 @@ public class SecurityConfig {
                         .failureUrl("/index.html?error=true")
                         // When login succeeds, hit your backend controller route
                         .defaultSuccessUrl("/dashboard", true)
+                        // CRITICAL FIX: Bind the OidcUserService bean here
+                        .userInfoEndpoint(userInfo -> userInfo
+                                .oidcUserService(oidcUserService())
+                        )
                 )
                 // 3. Configure CSRF protection
                 .csrf(csrf -> csrf
@@ -51,16 +54,20 @@ public class SecurityConfig {
         return http.build();
     }
 
-    private OAuth2UserService<OidcUserRequest, OidcUser> oidcUserService() {
+    // CRITICAL FIX: Added @Bean so Spring recognizes and can use this mapper
+    @Bean
+    public OAuth2UserService<OidcUserRequest, OidcUser> oidcUserService() {
         OidcUserService delegate = new OidcUserService();
         KeycloakRoleConverter roleConverter = new KeycloakRoleConverter();
 
         return userRequest -> {
             OidcUser oidcUser = delegate.loadUser(userRequest);
-            // Parse roles out of the ID Token
+
+            // Extract combined roles and groups from the ID Token
             var mappedAuthorities = roleConverter.convert(userRequest.getIdToken());
 
-            return new DefaultOidcUser(mappedAuthorities, oidcUser.getIdToken(), oidcUser.getUserInfo());
+            // Keycloak generally sets the default username field to "preferred_username"
+            return new DefaultOidcUser(mappedAuthorities, oidcUser.getIdToken(), oidcUser.getUserInfo(), "preferred_username");
         };
     }
 

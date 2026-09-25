@@ -1,0 +1,10 @@
+<ul class="menu-list" xmlns:th="http://thymeleaf.org">
+    <!-- Renders menu links dynamically from the Spring model -->
+    <li th:each="item : ${menuItems}">
+        <a th:attr="hx-get=${item.url}"
+           hx-target="#main-content"
+           hx-swap="innerHTML"
+           th:text="${item.name}">Menu Item</a>
+    </li>
+</ul>
+

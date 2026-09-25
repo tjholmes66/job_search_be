@@ -3,7 +3,7 @@
 <head>
     <title>Spring Boot + Thymeleaf + htmx</title>
     <!-- Include htmx from a CDN -->
-    <script src="https://unpkg.com"></script>
+    <script th:src="@{/js/htmx.min.js}"></script>
     <style>
         body { font-family: sans-serif; margin: 40px; }
         .search-box { margin-bottom: 20px; padding: 8px; width: 250px; }

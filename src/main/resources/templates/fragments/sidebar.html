@@ -1,0 +1,29 @@
+<div xmlns:th="http://thymeleaf.org" th:fragment="menu">
+    <div class="space-y-6">
+        <!-- Shared User Links -->
+        <div>
+            <p class="px-2 text-xs font-semibold text-gray-400 uppercase tracking-wider">General</p>
+            <nav class="mt-2 space-y-1">
+                <a href="#" hx-get="/dashboard/overview" hx-target="#main-content" class="flex items-center px-2 py-2 text-sm font-medium rounded-md hover:bg-gray-800 transition">
+                    Overview
+                </a>
+                <a href="#" hx-get="/dashboard/profile" hx-target="#main-content" class="flex items-center px-2 py-2 text-sm font-medium rounded-md hover:bg-gray-800 transition">
+                    My Profile
+                </a>
+            </nav>
+        </div>
+
+        <!-- Role-Based Admin Links -->
+        <div th:if="${isAdmin}">
+            <p class="px-2 text-xs font-semibold text-red-400 uppercase tracking-wider">Administration</p>
+            <nav class="mt-2 space-y-1">
+                <a href="#" hx-get="/admin/users" hx-target="#main-content" class="flex items-center px-2 py-2 text-sm font-medium rounded-md text-red-200 hover:bg-gray-800 transition">
+                    Manage Users
+                </a>
+                <a href="#" hx-get="/admin/settings" hx-target="#main-content" class="flex items-center px-2 py-2 text-sm font-medium rounded-md text-red-200 hover:bg-gray-800 transition">
+                    System Settings
+                </a>
+            </nav>
+        </div>
+    </div>
+</div>

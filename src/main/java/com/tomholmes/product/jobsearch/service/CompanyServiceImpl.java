@@ -51,22 +51,23 @@ public class CompanyServiceImpl implements CompanyService
         oldCompany.setUpdatedBy(1);  // default for now
         oldCompany.setUpdatedDate(LocalDateTime.now());
         
-        CompanyEntity entity = companyRepository.save(oldCompany);
+        CompanyEntity entity = companyRepository.saveAndFlush(oldCompany);
         return entity;
     }
 
     @Override
     public void deleteCompany(long id)
     {
-        // TODO Auto-generated method stub
-        
+        CompanyEntity entity = companyRepository.findById(id).orElse(null);
+        entity.setActive(false);
+        entity = companyRepository.saveAndFlush(entity);
     }
 
     @Override
     public void deleteCompany(CompanyEntity company)
     {
-        // TODO Auto-generated method stub
-        
+        company.setActive(false);
+        company = companyRepository.saveAndFlush(company);
     }
     
     
