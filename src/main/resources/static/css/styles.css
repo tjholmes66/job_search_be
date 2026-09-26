@@ -1,0 +1,52 @@
+/* Container styling - preserves your background color */
+.menu-container {
+    padding: 1.5rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* 1. Make the Menu Section Name pop */
+.menu-section-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #6b7280; /* Elegant, muted slate gray */
+    margin-bottom: 0.75rem;
+    padding-left: 0.5rem;
+}
+
+/* Reset the menu list layout */
+.menu-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+/* 2. Dress up the menu items to look & act like real links */
+.menu-item {
+    display: block;
+    padding: 0.5rem 0.75rem;
+    color: #2563eb; /* Classic link blue */
+    text-decoration: none;
+    font-weight: 500;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+/* Interactive feedback on hover */
+.menu-item:hover {
+    color: #1d4ed8; /* Darker blue on hover */
+    background-color: rgba(37, 99, 235, 0.08); /* Soft highlight tint overlay */
+    text-decoration: underline;
+}
+
+/* Optional styling indicator if you want to flag an active state */
+.menu-item.active {
+    color: #1e3a8a;
+    font-weight: 700;
+    background-color: rgba(37, 99, 235, 0.15);
+}

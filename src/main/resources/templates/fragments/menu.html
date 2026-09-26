@@ -1,10 +1,30 @@
+<!--
 <ul class="menu-list" xmlns:th="http://thymeleaf.org">
-    <!-- Renders menu links dynamically from the Spring model -->
-    <li th:each="item : ${menuItems}">
+    // Renders menu links dynamically from the Spring model
+    <li th:each="category : ${menuItems}">
         <a th:attr="hx-get=${item.url}"
            hx-target="#main-content"
            hx-swap="innerHTML"
            th:text="${item.name}">Menu Item</a>
     </li>
 </ul>
+-->
 
+<nav class="menu-container">
+    <!-- Outer Loop: Iterates through categories -->
+    <div  th:each="category : ${menuItems}" class="menu-section-title">
+        <h2 style="margin-left: 50px; font-size: 1.5rem;" th:text="${category.key}">Category Name</h2>
+
+        <!--
+        <ul class="menu-list">
+        // Inner Loop: Iterates through itens of the current category
+            <th:block th:each="iten : ${category.subMenuItems}">
+                <li>
+                    <span th:text="${item.name}">Menu Item</span>
+                </li>
+            </th:block>
+        </ul>
+        -->
+
+    </div>
+</nav>
