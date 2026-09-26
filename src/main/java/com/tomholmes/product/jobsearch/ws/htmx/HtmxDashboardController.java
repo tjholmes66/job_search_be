@@ -9,13 +9,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @Controller
-public class DashboardController {
+public class HtmxDashboardController {
 
     @GetMapping("/dashboard")
     public String showDashboard(Model model, @AuthenticationPrincipal OidcUser principal) {
@@ -31,7 +32,7 @@ public class DashboardController {
     // 2. HTMX endpoint filtering list options by Granted Authorities
     @GetMapping("/dashboard/menu")
     public String getSidebarMenu(Model model, @AuthenticationPrincipal OidcUser principal) {
-        Map<String, List<Map<String, String>>> menuItems = new HashMap<>();
+        Map<String, List<Map<String, String>>> menuItems = new LinkedHashMap<>();
 
         if (principal != null) {
             // Map granted authorities to clean string tokens for simple list contains matching

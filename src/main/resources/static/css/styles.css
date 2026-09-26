@@ -1,6 +1,7 @@
 /* Container styling - preserves your background color */
 .menu-container {
     padding: 1.5rem;
+    margin-left: 50px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
@@ -25,18 +26,6 @@
     gap: 0.25rem;
 }
 
-/* 2. Dress up the menu items to look & act like real links */
-.menu-item {
-    display: block;
-    padding: 0.5rem 0.75rem;
-    color: #2563eb; /* Classic link blue */
-    text-decoration: none;
-    font-weight: 500;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: all 0.2s ease-in-out;
-}
-
 /* Interactive feedback on hover */
 .menu-item:hover {
     color: #1d4ed8; /* Darker blue on hover */
@@ -49,4 +38,17 @@
     color: #1e3a8a;
     font-weight: 700;
     background-color: rgba(37, 99, 235, 0.15);
+}
+
+/* Container handles the alignment for everything inside it */
+.menu-section {
+    display: block;            /* Ensures it behaves as a standard block */
+    padding-left: 50px;        /* Guarantees a shift from the screen edge */
+    box-sizing: border-box;    /* Prevents layout overflow */
+}
+
+/* Ensure child elements don't have stray margins fighting this */
+.menu-section h2,
+.menu-section .menu-item {
+    margin-left: 0 !important;
 }
