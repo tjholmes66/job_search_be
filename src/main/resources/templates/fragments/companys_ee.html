@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://thymeleaf.org">
 <head>
-    <title>Spring Boot + Thymeleaf + htmx</title>
-    <!-- Include htmx from a CDN -->
-    <script src="https://unpkg.com"></script>
+    <title>Company Management</title>
+
+    <script th:src="@{/js/htmx.min.js}"></script>
+
     <style>
         body { font-family: sans-serif; margin: 40px; }
         .search-box { margin-bottom: 20px; padding: 8px; width: 250px; }
@@ -35,8 +36,8 @@
 <div id="search-results">
     <!-- Define the fragment that can be returned independently by the server -->
     <ul th:fragment="company-list">
-        <li th:each="company : ${companys}" th:text="${company}">Company Name</li>
-        <li th:if="${#lists.isEmpty(companys)}">No companys found.</li>
+        <li th:each="company : ${companies}" th:text="${company}">Company Name</li>
+        <li th:if="${#lists.isEmpty(companies)}">No companies found.</li>
     </ul>
 </div>
 

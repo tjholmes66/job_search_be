@@ -14,7 +14,7 @@ public class HtmxUserController {
     private final List<String> users = List.of("Alice Smith", "Bob Jones", "Charlie Brown", "Diana Prince");
 
     // 1. Renders the full main page initially
-    @GetMapping("/")
+    @GetMapping("/users")
     public String index(Model model) {
         model.addAttribute("users", users);
         return "users_ee";

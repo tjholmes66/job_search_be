@@ -13,17 +13,31 @@ import org.springframework.boot.jdbc.test.autoconfigure.AutoConfigureTestDatabas
 import org.testcontainers.shaded.com.fasterxml.jackson.core.JsonProcessingException;
 import tools.jackson.databind.ObjectMapper;
 
+import java.util.List;
+
 @AutoConfigureTestDatabase(replace= AutoConfigureTestDatabase.Replace.NONE)
 @DataJpaTest
 public class CompanyRepositoryTest
 {
     @Autowired
     private CompanyRepository repository;
+
+    @Test
+    public void testGetAllCompanies() {
+        List<CompanyEntity> companyEntityList = repository.findAll();
+        assertNotNull(companyEntityList);
+        assertEquals(2, companyEntityList.size() );
+    }
     
     @Test
     public void testFindById() {
         long id = 1;
         CompanyEntity companyEntity = repository.findById(id).orElse(null);
+        assertNotNull(companyEntity);
+        assertEquals(id, companyEntity.getId());
+
+        id = 2;
+        companyEntity = repository.findById(id).orElse(null);
         assertNotNull(companyEntity);
         assertEquals(id, companyEntity.getId());
     }

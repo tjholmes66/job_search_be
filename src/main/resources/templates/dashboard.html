@@ -1,44 +1,84 @@
 <!DOCTYPE html>
 <html xmlns:th="http://thymeleaf.org">
 <head>
-    <title>Job Search ATS Dashboard</title>
+    <meta charset="UTF-8">
+    <title>Application Dashboard</title>
 
     <!-- 1. Inject the Spring CSRF Token values securely -->
     <meta name="_csrf" th:content="${_csrf.token}"/>
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 
-    <!-- 2. Include standard HTMX -->
-    <script src="https://unpkg.com"></script>
+    <!-- 2. Include standard stable HTMX (Pinned Version) -->
+    <script th:src="@{/js/htmx.min.js}"></script>
+
+    <!-- Inline script to monitor HTMX initialization and failures -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log("DOM loaded. HTMX checking state:", typeof htmx !== 'undefined' ? 'Active' : 'Missing');
+
+            // Force HTMX to log all structural network cycles to the browser development console
+            if (typeof htmx !== 'undefined') {
+                htmx.logger = function(elt, event, data) {
+                    if (console) {
+                        console.log("HTMX Event:", event, elt, data);
+                    }
+                }
+            }
+        });
+    </script>
 
     <!-- 3. Link your external static JS file -->
-    <script th:src="@{js/htmx-csrf.js}" defer></script>
+    <script th:src="@{/js/htmx-csrf.js}" defer></script>
+
     <style>
-        body { font-family: sans-serif; margin: 40px; }
-        .search-box { margin-bottom: 20px; padding: 8px; width: 250px; }
-        ul { list-style: none; padding: 0; }
-        li { padding: 8px; border-bottom: 1px solid #eee; width: 250px; }
+        /* ... Keep your existing CSS variables and block rules exactly as they are ... */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: Arial, sans-serif; display: grid; grid-template-rows: 60px 1fr 40px; grid-template-columns: 260px 1fr; grid-template-areas: "header header" "sidebar main" "footer footer"; height: 100vh; }
+        body.sidebar-collapsed { grid-template-columns: 0px 1fr; }
+        header { grid-area: header; background-color: #e6f0fa; border-bottom: 1px solid #cce0f5; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; }
+        .header-left { display: flex; align-items: center; gap: 15px; }
+        .toggle-btn { background: #cbdff2; border: 1px solid #b5d0eb; padding: 6px 12px; cursor: pointer; border-radius: 4px; }
+        aside { grid-area: sidebar; background-color: #e6f0fa; border-right: 1px solid #cce0f5; overflow-x: hidden; overflow-y: auto; }
+        main { grid-area: main; background-color: #ffffff; padding: 20px; overflow-y: auto; }
+        footer { grid-area: footer; background-color: #e6f0fa; border-top: 1px solid #cce0f5; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; color: #556677; }
     </style>
 </head>
 <body>
 
-<p>Job Search ATS Dashboard</p>
+<!-- Header Section -->
+<header>
+    <div class="header-left">
+        <button class="toggle-btn" onclick="document.body.classList.toggle('sidebar-collapsed')">☰</button>
+        <h2 th:text="${pageTitle}">Dashboard Title</h2>
+    </div>
+    <div class="user-info">
+        <span th:text="${name}">Guest User</span>
+        <small th:text="'(' + ${email} + ')'">No email provided</small>
+        <small th:text="'(' + ${username} + ')'">anonymous</small>
+    </div>
+</header>
 
-<h1>Job Search ATS Dashboard</h1>
+<!-- Sidebar Section -->
+<!-- Sidebar Section -->
+<aside id="sidebar-menu"
+       th:hx-get="@{/dashboard/menu}"
+       hx-target="#sidebar-menu"
+       hx-trigger="load"
+       hx-swap="innerHTML">
+    <p style="padding: 15px; color: #778899;">Loading navigation...</p>
+</aside>
 
-<h2>Finished and Logged In!</h2>
+<!-- Main Section -->
+<main id="main-content">
+    <h3>Welcome Back!</h3>
+    <p>This is your primary work canvas area with a crisp white view background.</p>
+</main>
 
-<div>
-    <p><strong>Full Name:</strong> <span th:text="${name}">Guest User</span></p>
-    <p><strong>Email Address:</strong> <span th:text="${email}">No email provided</span></p>
-    <p><strong>Username:</strong> <span th:text="${username}">anonymous</span></p>
-</div>
+<!-- Footer Section -->
+<footer>
+    <p>&copy; 2026 Your Company. All Rights Reserved. | <a href="/terms">Terms of Service</a></p>
+</footer>
 
-<!-- Replace with your actual Keycloak host and realm -->
-<a href="http://localhost:9000/realms/job_search_realm/account"
-   target="_blank"
-   class="btn-profile">
-    Manage Account & Password
-</a>
-
+<!-- REMOVED: Broken cloudflare script reference that was crashing the page -->
 </body>
 </html>
