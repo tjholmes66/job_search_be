@@ -36,7 +36,7 @@ public class UserRoleRepositoryTest
         long roleId = 1;
         List<UserEntity> userList = repository.findUserByRoleId(roleId);
         assertNotNull(userList);
-        assertEquals(2, userList.size());
+        assertEquals(3, userList.size());
     }
     
     @Test

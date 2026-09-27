@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Job Search Applications</title>
+    <script th:src="@{/js/htmx.min.js}"></script>
+    <style>
+        body { font-family: sans-serif; margin: 40px; }
+        table { border-collapse: collapse; width: 100%; border: 2px solid black; }
+        th, td { border: 1px solid black; padding: 8px 12px; text-align: left; }
+        th { background-color: #f4f4f4; border-bottom: 2px solid black; }
+        tr:nth-child(even) { background-color: #fafafa; }
+        .badge { padding: 2px 8px; border-radius: 4px; font-size: 0.85em; }
+        .badge-rejected { background-color: #f8d7da; color: #842029; }
+        .badge-active { background-color: #d1e7dd; color: #0f5132; }
+        .badge-closed { background-color: #e2e3e5; color: #41464b; }
+    </style>
+</head>
+<body>
+
+<h2>Job Search Applications</h2>
+
+<!-- Full page load target -->
+<div id="search-results">
+
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Company</th>
+            <th>Job ID</th>
+            <th>Recruiter</th>
+            <th>Recruiter Company</th>
+            <th>Hiring Manager</th>
+            <th>Source</th>
+            <th>Applied</th>
+            <th>Status</th>
+            <th>Rejected Date</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+
+        <!-- Fragment that HTMX swaps in subsequent requests -->
+        <tbody th:fragment="application-list">
+            <tr th:each="app : ${apps}"
+                th:id="'application-row-' + ${app.id}"
+                hx-target="this"
+                hx-swap="outerHTML">
+
+                <td th:text="${app.id}"></td>
+                <td th:text="${app.company != null ? app.company.companyName : ''}"></td>
+                <td th:text="${app.companyJobId}"></td>
+                <td th:text="${app.recruiterName}"></td>
+                <td th:text="${app.recruiterCompany}"></td>
+                <td th:text="${app.hiringManager}"></td>
+                <td th:text="${app.applicationSource != null ? app.applicationSource.sourcName : ''}"></td>
+                <td th:text="${#temporals.format(app.applicationDate, 'yyyy-MM-dd')}"></td>
+
+                <!-- Status badge -->
+                <td>
+                    <span th:if="${app.rejected}"
+                          class="badge badge-rejected">Rejected</span>
+                    <span th:if="${!app.rejected}"
+                          class="badge badge-active">Active</span>
+                </td>
+
+                <td th:text="${app.rejectedDate != null ? #temporals.format(app.rejectedDate, 'yyyy-MM-dd') : ''}"></td>
+
+                <td>
+                    <button class="btn btn-sm btn-outline-primary"
+                            th:hx-get="@{/app/{id}/edit(id=${app.id})}">
+                        Edit
+                    </button>
+                    <button class="btn btn-sm btn-outline-danger"
+                            th:hx-delete="@{/app/{id}(id=${app.id})}"
+                            hx-confirm="Delete this application?">
+                        Delete
+                    </button>
+                </td>
+            </tr>
+
+            <!-- Empty state -->
+            <tr>
+                <td colspan="11" class="text-center text-muted"
+                    th:if="${#lists.isEmpty(apps)}">
+                    No applications found.
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>
+
+</body>
+</html>

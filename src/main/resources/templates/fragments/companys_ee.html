@@ -16,30 +16,50 @@
 
 <h2>Companies Directory</h2>
 
-<!-- htmx Attributes:
-     hx-get: Sends an AJAX GET request to the backend as the company types
-     hx-trigger: Fires on 'keyup', but waits 300ms (debounce) so it doesn't flood the server
-     hx-target: Directs the HTML response to overwrite the element matching this ID
-     name="q": Map this input automatically to the @RequestParam("q") in Java
--->
-<label>
-    <input type="text"
-           name="q"
-           placeholder="Type to filter companys..."
-           class="search-box"
-           hx-get="/companys/search"
-           hx-trigger="keyup changed delay:300ms"
-           hx-target="#search-results" />
-</label>
+<thead>
+    <tr>
+        <th>ID</th>
+    </tr>
+</thead>
+<tbody th:fragment="company-list">
+<!-- Iterate over each company -->
+<tr th:each="company : ${companies}"
+    th:id="'company-row-' + ${company.id}"
+    hx-target="this"
+    hx-swap="outerHTML">
 
-<!-- Container that htmx will swap the response into -->
-<div id="search-results">
-    <!-- Define the fragment that can be returned independently by the server -->
-    <ul th:fragment="company-list">
-        <li th:each="company : ${companies}" th:text="${company}">Company Name</li>
-        <li th:if="${#lists.isEmpty(companies)}">No companies found.</li>
-    </ul>
-</div>
+    <td>
+        <a th:text="${company.companyName}"
+           th:href="@{/companies/{id}(id=${company.id})}"></a>
+    </td>
+    <td th:text="${company.companyCode}"></td>
+    <td th:text="${company.description}"></td>
+    <td th:text="${company.address1}"></td>
+
+    <td>
+        <!-- Edit button: HTMX swap-in an edit form row -->
+        <button hx-get="@{/companies/{id}/edit(id=${company.id})}"
+                class="btn btn-sm btn-outline-primary">
+            Edit
+        </button>
+
+        <!-- Delete button: removes the row on success -->
+        <button hx-delete="@{/companies/{id}(id=${company.id})}"
+                hx-confirm="Delete this company?"
+                class="btn btn-sm btn-outline-danger">
+            Delete
+        </button>
+    </td>
+</tr>
+
+<!-- Empty state when list is empty -->
+<tr>
+    <td colspan="5" class="text-center text-muted"
+        th:if="${#lists.isEmpty(companies)}">
+        No companies found.
+    </td>
+</tr>
+</tbody>
 
 </body>
 </html>

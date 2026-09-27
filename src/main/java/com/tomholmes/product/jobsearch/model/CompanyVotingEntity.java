@@ -60,9 +60,9 @@ public class CompanyVotingEntity implements Serializable {
     @Column(name = "updated_date")
     private LocalDateTime updatedDate;
 
-    public long getId() { return Id; }
+    public Long getId() { return Id; }
 
-    public void setId(long id)
+    public void setId(Long id)
     {
         Id = id;
     }
@@ -78,23 +78,23 @@ public class CompanyVotingEntity implements Serializable {
         this.company = company;
     }
 
-    public long getGhost_upvote() { return ghost_upvote; }
+    public Long getGhost_upvote() { return ghost_upvote; }
 
-    public void setGhostUpvote(long ghost_upvote)
+    public void setGhostUpvote(Long ghost_upvote)
     {
         ghost_upvote = ghost_upvote;
     }
 
-    public long getUpvote() { return upvote; }
+    public Long getUpvote() { return upvote; }
 
-    public void setUpvote(long ghost_upvote)
+    public void setUpvote(Long ghost_upvote)
     {
         upvote = upvote;
     }
 
-    public long getDownvote() { return downvote; }
+    public Long getDownvote() { return downvote; }
 
-    public void setDownvote(long downvote)
+    public void setDownvote(Long downvote)
     {
         downvote = downvote;
     }

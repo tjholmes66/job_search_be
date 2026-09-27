@@ -59,7 +59,7 @@ public class HtmxDashboardController {
             if (authorities.contains("ROLE_USERS") || authorities.contains("ROLE_ADMINS")) {
                 List<Map<String, String>> subMenuItems = new ArrayList<>();
                 subMenuItems.add(Map.of("name", "System Settings", "url", "/settings"));
-                subMenuItems.add(Map.of("name", "List Application", "url", "/"));
+                subMenuItems.add(Map.of("name", "My Applications", "url", "/app/user"));
                 menuItems.put("User Menu", subMenuItems);
             }
         }
