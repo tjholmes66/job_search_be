@@ -55,7 +55,7 @@ public class ApplicationEntity implements Serializable
     
     // `rejected` tinyint NOT NULL DEFAULT '0',
     @Column(name = "rejected")
-    private boolean rejected;
+    private Boolean rejected;
     
     // `rejected_date` datetime DEFAULT NULL,
     @Column(name = "rejected_date")
@@ -118,11 +118,11 @@ public class ApplicationEntity implements Serializable
         this.user = user;
     }
 
-    public boolean isRejected() {
+    public Boolean isRejected() {
         return rejected;
     }
 
-    public void setRejected(boolean rejected) {
+    public void setRejected(Boolean rejected) {
         this.rejected = rejected;
     }
 

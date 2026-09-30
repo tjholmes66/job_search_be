@@ -24,19 +24,19 @@
 
     <table>
         <thead>
-        <tr>
-            <th>ID</th>
-            <th>Company</th>
-            <th>Job ID</th>
-            <th>Recruiter</th>
-            <th>Recruiter Company</th>
-            <th>Hiring Manager</th>
-            <th>Source</th>
-            <th>Applied</th>
-            <th>Status</th>
-            <th>Rejected Date</th>
-            <th>Actions</th>
-        </tr>
+            <tr>
+                <th>App Id</th>
+                <th>Rejected</th>
+                <th>Rejected Date</th>
+                <th>Recruiter Name</th>
+                <th>Recruiter Company</th>
+                <th>Company</th>
+                <th>Job Id</th>
+                <th>Hiring Manager</th>
+                <th>App.Date</th>
+                <th>App.Source</th>
+                <th>Actions</th>
+            </tr>
         </thead>
 
         <!-- Fragment that HTMX swaps in subsequent requests -->
@@ -47,13 +47,6 @@
                 hx-swap="outerHTML">
 
                 <td th:text="${app.id}"></td>
-                <td th:text="${app.company != null ? app.company.companyName : ''}"></td>
-                <td th:text="${app.companyJobId}"></td>
-                <td th:text="${app.recruiterName}"></td>
-                <td th:text="${app.recruiterCompany}"></td>
-                <td th:text="${app.hiringManager}"></td>
-                <td th:text="${app.applicationSource != null ? app.applicationSource.sourcName : ''}"></td>
-                <td th:text="${#temporals.format(app.applicationDate, 'yyyy-MM-dd')}"></td>
 
                 <!-- Status badge -->
                 <td>
@@ -63,7 +56,14 @@
                           class="badge badge-active">Active</span>
                 </td>
 
-                <td th:text="${app.rejectedDate != null ? #temporals.format(app.rejectedDate, 'yyyy-MM-dd') : ''}"></td>
+                <td th:text="${#temporals.format(app.rejectedDate, 'yyyy-MM-dd')}"></td>
+                <td th:text="${app.recruiterName}"></td>
+                <td th:text="${app.recruiterCompany}"></td>
+                <td th:text="${app.company.companyName}"></td>
+                <td th:text="${app.companyJobId}"></td>
+                <td th:text="${app.hiringManager}"></td>
+                <td th:text="${#temporals.format(app.applicationDate, 'yyyy-MM-dd')}"></td>
+                <td th:text="${app.applicationSource != null ? app.applicationSource.sourcName : ''}"></td>
 
                 <td>
                     <button class="btn btn-sm btn-outline-primary"
@@ -89,6 +89,57 @@
     </table>
 
 </div>
+
+<!-- ============================================================ -->
+<!-- FRAGMENTS (returned independently by the server for HTMX)   -->
+<!-- ============================================================ -->
+
+<!-- Single app row (used for display & canceling an edit) -->
+<!--
+<tr th:fragment="app-row" th:if="${app != null}"
+    th:id="'app-row-' + ${app.id}" hx-target="this" hx-swap="outerHTML">
+    <td th:text="${app.id}"></td>
+    <td>
+        <a th:text="${app.appName}"
+           th:href="@{/apps/{id}(id=${app.id})}"></a>
+    </td>
+    <td th:text="${app.active}"></td>
+    <td>
+        <button hx-get="@{/apps/{id}/edit(id=${app.id})}"
+                class="btn btn-sm btn-outline-primary">
+            Edit
+        </button>
+        <button hx-delete="@{/apps/{id}(id=${app.id})}"
+                hx-confirm="Delete this app?"
+                class="btn btn-sm btn-outline-danger">
+            Delete
+        </button>
+    </td>
+</tr>
+-->
+
+<!-- Inline edit form row -->
+<!--
+<tr th:fragment="app-edit-row" th:if="${app != null}" class="form-row"
+    th:id="'app-row-' + ${app.id}">
+    <td><span th:text="${app.id}"></span></td>
+    <td><input type="text" th:field="${appName}" placeholder="Company Name"></td>
+    <td><input type="checkbox" th:field="${active}"></td>
+    <td>
+        <button class="btn btn-sm btn-primary"
+                th:hx-put="@{/apps/{id}(id=${app.id})}"
+                th:hx-include="closest tr">
+            Save
+        </button>
+        <button class="btn btn-sm"
+                th:hx-get="@{/apps/{id}(id=${app.id})}"
+                hx-target="closest tr"
+                hx-swap="outerHTML">
+            Cancel
+        </button>
+    </td>
+</tr>
+-->
 
 </body>
 </html>

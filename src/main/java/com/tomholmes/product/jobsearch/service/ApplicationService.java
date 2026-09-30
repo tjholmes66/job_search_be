@@ -13,6 +13,8 @@ public interface ApplicationService {
 
     List<ApplicationEntity> findByUsername(String username);
 
+    ApplicationEntity getById(Long id);
+
     // UPDATE
 
     // DELETE - soft-delete

@@ -31,6 +31,12 @@ public class ApplicationServiceImpl implements ApplicationService {
         return  applicationEntities;
     }
 
+    @Override
+    public ApplicationEntity getById(Long id) {
+        ApplicationEntity  applicationEntity = applicationRepository.findById(id).orElse(null);
+        return  applicationEntity;
+    }
+
     // UPDATE
 
     // DELETE
