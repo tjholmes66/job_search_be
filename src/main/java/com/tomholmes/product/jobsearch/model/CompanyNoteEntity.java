@@ -19,6 +19,7 @@ import jakarta.persistence.Table;
   `company_id` int NOT NULL,
   `note_date` datetime NOT NULL,
   `notes` text NOT NULL,
+  `is_active` boolean NOT NULL,
   `created_by` int NOT NULL DEFAULT '1',
   `created_date` datetime NOT NULL,
   `updated_by` int NOT NULL DEFAULT '1',
@@ -52,9 +53,9 @@ public class CompanyNoteEntity implements Serializable
     @Column(name = "notes")
     private String notes;
     
-    //`notes` text NOT NULL,
-    @Column(name = "private")
-    private boolean privateNote;
+    //`is_active` text NOT NULL,
+    @Column(name = "is_active")
+    private boolean is_active;
     
     @Column(name = "created_by")
     private long createdBy;
@@ -105,6 +106,10 @@ public class CompanyNoteEntity implements Serializable
         this.notes = notes;
     }
 
+    public boolean getIsActive() { return is_active; }
+
+    public void setIsActive(boolean is_active) { this.is_active = is_active; }
+
     public long getCreatedBy()
     {
         return createdBy;
@@ -148,7 +153,7 @@ public class CompanyNoteEntity implements Serializable
     @Override
     public int hashCode()
     {
-        return Objects.hash(company, createdBy, createdDate, id, noteDate, notes, updatedBy, updatedDate);
+        return Objects.hash(company, createdBy, createdDate, id, noteDate, notes, is_active, updatedBy, updatedDate);
     }
 
     @Override
@@ -168,7 +173,7 @@ public class CompanyNoteEntity implements Serializable
     @Override
     public String toString()
     {
-        return "CompanyNoteEntity [id=" + id + ", company=" + company + ", noteDate=" + noteDate + ", notes=" + notes + ", createdBy=" + createdBy + ", createdDate=" + createdDate + ", updatedBy="
+        return "CompanyNoteEntity [id=" + id + ", company=" + company + ", noteDate=" + noteDate + ", notes=" + notes + "isActive=" + is_active + ", createdBy=" + createdBy + ", createdDate=" + createdDate + ", updatedBy="
             + updatedBy + ", updatedDate=" + updatedDate + "]";
     }
     
