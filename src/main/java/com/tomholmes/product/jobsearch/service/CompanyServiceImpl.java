@@ -36,9 +36,9 @@ public class CompanyServiceImpl implements CompanyService
     @Override
     public CompanyEntity createCompany(CompanyEntity newEntity) {
         
-        newEntity.setCreatedBy(1);  // default for now
+        newEntity.setCreatedBy(1L);  // default for now
         newEntity.setCreatedDate(LocalDateTime.now());
-        newEntity.setUpdatedBy(1);  // default for now
+        newEntity.setUpdatedBy(1L);  // default for now
         newEntity.setUpdatedDate(LocalDateTime.now());
         
         CompanyEntity entity = companyRepository.save(newEntity);
@@ -48,7 +48,7 @@ public class CompanyServiceImpl implements CompanyService
     @Override
     public CompanyEntity updateCompany(CompanyEntity oldCompany)
     {
-        oldCompany.setUpdatedBy(1);  // default for now
+        oldCompany.setUpdatedBy(1L);  // default for now
         oldCompany.setUpdatedDate(LocalDateTime.now());
         
         CompanyEntity entity = companyRepository.saveAndFlush(oldCompany);

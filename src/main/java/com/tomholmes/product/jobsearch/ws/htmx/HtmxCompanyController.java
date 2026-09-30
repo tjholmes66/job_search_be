@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -18,6 +19,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
+@RequestMapping ("/companies")
 public class HtmxCompanyController {
 
     private final CompanyService companyService;
@@ -26,7 +28,7 @@ public class HtmxCompanyController {
     }
 
     // 1. Renders the full main page initially for companies
-    @GetMapping("/companies")
+    @GetMapping("")
     public String index(Model model) {
         List<CompanyEntity> companies = companyService.getAllCompanies();
         model.addAttribute("companies", companies);
@@ -38,7 +40,7 @@ public class HtmxCompanyController {
     public String getRow(@PathVariable Long id, Model model) {
         CompanyEntity company = companyService.getById(id);
         model.addAttribute("company", company);
-        return "companys_ee :: company-row";
+        return "fragments/companys_ee :: company-row";
     }
 
     // 3. Swap Row into Edit Mode
@@ -46,7 +48,7 @@ public class HtmxCompanyController {
     public String editRow(@PathVariable Long id, Model model) {
         CompanyEntity company = companyService.getById(id);
         model.addAttribute("company", company);
-        return "companys_ee :: company-edit-row";
+        return "fragments/companys_ee :: company-edit-row";
     }
 
     // 4. Save Inline Changes (PUT)
@@ -54,7 +56,7 @@ public class HtmxCompanyController {
     public String saveRow(@PathVariable Long id, @ModelAttribute CompanyEntity updatedData, Model model) {
         CompanyEntity updatedCompany = companyService.updateCompany(updatedData);
         model.addAttribute("company", updatedCompany);
-        return "companys_ee :: company-row";
+        return "fragments/companys_ee :: company-row";
     }
 
     // 5. Delete Row (Returns empty string to wipe DOM item out)
@@ -68,7 +70,7 @@ public class HtmxCompanyController {
     // 6. Open Inline Creation Form Row
     @GetMapping("/new")
     public String newRowForm() {
-        return "companys_ee :: company-new-row";
+        return "fragments/companys_ee :: company-new-row";
     }
 
     // 7. Cancel Inline Creation Form Row
@@ -86,7 +88,7 @@ public class HtmxCompanyController {
 
         // This handles appending the new row AND resetting the form inside #new-row-container out-of-band!
         response.setContentType("text/html");
-        return "companies :: company-row";
+        return "fragments/companys_ee :: company-row";
     }
 
 }

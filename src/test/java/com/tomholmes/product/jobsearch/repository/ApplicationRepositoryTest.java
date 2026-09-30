@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.tomholmes.product.jobsearch.model.ApplicationEntity;
 
+import java.util.List;
+
 public class ApplicationRepositoryTest extends BaseRepositoryTest
 {
     @Autowired
@@ -27,6 +29,14 @@ public class ApplicationRepositoryTest extends BaseRepositoryTest
         
         assertNotNull(applicationEntity.getCompany().getId());
         assertEquals(companyId, applicationEntity.getId());
+    }
+
+    @Test
+    public void testFindByUsername() {
+        String username = "tjholmes66"; // should find data
+        List<ApplicationEntity> listApplication = repository.findByUserUsername(username);
+        assertNotNull(listApplication);
+        assertEquals(2, listApplication.size());
     }
 
 }
