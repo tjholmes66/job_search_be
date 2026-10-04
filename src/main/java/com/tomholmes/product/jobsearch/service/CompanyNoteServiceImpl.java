@@ -3,19 +3,31 @@ package com.tomholmes.product.jobsearch.service;
 import com.tomholmes.product.jobsearch.model.CompanyEntity;
 import com.tomholmes.product.jobsearch.model.CompanyNoteEntity;
 import com.tomholmes.product.jobsearch.repository.CompanyNoteRepository;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Service
+@Transactional
 public class CompanyNoteServiceImpl implements CompanyNoteService {
 
-    private CompanyNoteRepository companyNoteRepository;
+    private final CompanyNoteRepository companyNoteRepository;
 
-    public CompanyNoteServiceImpl(CompanyNoteRepository companyNoteRepository) { this.companyNoteRepository = companyNoteRepository; }
+    public CompanyNoteServiceImpl(CompanyNoteRepository companyNoteRepository) {
+        this.companyNoteRepository = companyNoteRepository;
+    }
 
     @Override
     public List<CompanyNoteEntity> getAllCompanyNotes() {
         List<CompanyNoteEntity> companyNoteyList = companyNoteRepository.findAll();
+        return companyNoteyList;
+    }
+
+    @Override
+    public List<CompanyNoteEntity> getCompanyNotesByCompanyId(Long companyId) {
+        List<CompanyNoteEntity> companyNoteyList = companyNoteRepository.findByCompanyId(companyId);
         return companyNoteyList;
     }
 

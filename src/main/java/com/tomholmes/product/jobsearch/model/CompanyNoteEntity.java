@@ -14,21 +14,21 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 /*
- * CREATE TABLE `company_note` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `company_id` int NOT NULL,
-  `note_date` datetime NOT NULL,
-  `notes` text NOT NULL,
-  `is_active` boolean NOT NULL,
-  `created_by` int NOT NULL DEFAULT '1',
-  `created_date` datetime NOT NULL,
-  `updated_by` int NOT NULL DEFAULT '1',
-  `updated_date` int NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_company_note_company_idx` (`company_id`),
-  CONSTRAINT `fk_company_note_company` FOREIGN KEY (`company_id`) REFERENCES `company` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
- */
+CREATE TABLE `company_note` (
+        `id` bigint NOT NULL AUTO_INCREMENT,
+         `company_id` bigint NOT NULL,
+        `note_date` datetime NOT NULL,
+        `is_active` tinyint(1) NOT NULL DEFAULT '0',
+        `notes` text NOT NULL,
+        `created_by` bigint NOT NULL DEFAULT '1',
+        `created_date` datetime NOT NULL,
+        `updated_by` bigint NOT NULL DEFAULT '1',
+        `updated_date` datetime NOT NULL,
+PRIMARY KEY (`id`),
+KEY `fk_company_note_company_idx` (`company_id`),
+CONSTRAINT `fk_company_note_company` FOREIGN KEY (`company_id`) REFERENCES `company` (`id`)
+        ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+*/
 
 @SuppressWarnings("serial")
 @Entity
@@ -55,7 +55,7 @@ public class CompanyNoteEntity implements Serializable
     
     //`is_active` text NOT NULL,
     @Column(name = "is_active")
-    private boolean is_active;
+    private boolean active;
     
     @Column(name = "created_by")
     private long createdBy;
@@ -69,112 +69,102 @@ public class CompanyNoteEntity implements Serializable
     @Column(name = "updated_date")
     private LocalDateTime updatedDate;
 
-    public long getId()
-    {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id)
-    {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public CompanyEntity getCompany() { return company; }
+    public CompanyEntity getCompany() {
+        return company;
+    }
 
-    public void setCompany(CompanyEntity company)
-    {
+    public void setCompany(CompanyEntity company) {
         this.company = company;
     }
 
-    public LocalDateTime getNoteDate()
-    {
+    public LocalDateTime getNoteDate() {
         return noteDate;
     }
 
-    public void setNoteDate(LocalDateTime noteDate)
-    {
+    public void setNoteDate(LocalDateTime noteDate) {
         this.noteDate = noteDate;
     }
 
-    public String getNotes()
-    {
+    public String getNotes() {
         return notes;
     }
 
-    public void setNotes(String notes)
-    {
+    public void setNotes(String notes) {
         this.notes = notes;
     }
 
-    public boolean getIsActive() { return is_active; }
+    public boolean isActive() {
+        return active;
+    }
 
-    public void setIsActive(boolean is_active) { this.is_active = is_active; }
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 
-    public long getCreatedBy()
-    {
+    public long getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(long createdBy)
-    {
+    public void setCreatedBy(long createdBy) {
         this.createdBy = createdBy;
     }
 
-    public LocalDateTime getCreatedDate()
-    {
+    public LocalDateTime getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(LocalDateTime createdDate)
-    {
+    public void setCreatedDate(LocalDateTime createdDate) {
         this.createdDate = createdDate;
     }
 
-    public long getUpdatedBy()
-    {
+    public long getUpdatedBy() {
         return updatedBy;
     }
 
-    public void setUpdatedBy(long updatedBy)
-    {
+    public void setUpdatedBy(long updatedBy) {
         this.updatedBy = updatedBy;
     }
 
-    public LocalDateTime getUpdatedDate()
-    {
+    public LocalDateTime getUpdatedDate() {
         return updatedDate;
     }
 
-    public void setUpdatedDate(LocalDateTime updatedDate)
-    {
+    public void setUpdatedDate(LocalDateTime updatedDate) {
         this.updatedDate = updatedDate;
     }
 
     @Override
-    public int hashCode()
-    {
-        return Objects.hash(company, createdBy, createdDate, id, noteDate, notes, is_active, updatedBy, updatedDate);
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        CompanyNoteEntity that = (CompanyNoteEntity) o;
+        return active == that.active && createdBy == that.createdBy && updatedBy == that.updatedBy && Objects.equals(id, that.id) && Objects.equals(company, that.company) && Objects.equals(noteDate, that.noteDate) && Objects.equals(notes, that.notes) && Objects.equals(createdDate, that.createdDate) && Objects.equals(updatedDate, that.updatedDate);
     }
 
     @Override
-    public boolean equals(Object obj)
-    {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        CompanyNoteEntity other = (CompanyNoteEntity) obj;
-        return Objects.equals(company, other.company) && createdBy == other.createdBy && Objects.equals(createdDate, other.createdDate) && id == other.id && Objects.equals(noteDate, other.noteDate)
-            && Objects.equals(notes, other.notes) && updatedBy == other.updatedBy && Objects.equals(updatedDate, other.updatedDate);
+    public int hashCode() {
+        return Objects.hash(id, company, noteDate, notes, active, createdBy, createdDate, updatedBy, updatedDate);
     }
 
     @Override
-    public String toString()
-    {
-        return "CompanyNoteEntity [id=" + id + ", company=" + company + ", noteDate=" + noteDate + ", notes=" + notes + "isActive=" + is_active + ", createdBy=" + createdBy + ", createdDate=" + createdDate + ", updatedBy="
-            + updatedBy + ", updatedDate=" + updatedDate + "]";
+    public String toString() {
+        return "CompanyNoteEntity{" +
+                "id=" + id +
+                ", company=" + company +
+                ", noteDate=" + noteDate +
+                ", notes='" + notes + '\'' +
+                ", active=" + active +
+                ", createdBy=" + createdBy +
+                ", createdDate=" + createdDate +
+                ", updatedBy=" + updatedBy +
+                ", updatedDate=" + updatedDate +
+                '}';
     }
-    
 }

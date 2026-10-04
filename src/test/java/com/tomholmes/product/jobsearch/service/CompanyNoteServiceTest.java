@@ -18,7 +18,7 @@ import tools.jackson.databind.ObjectMapper;
 public class CompanyNoteServiceTest extends BaseServiceTests {
 
     @Autowired
-    private CompanyNoteService noteService;
+    private CompanyNoteService  noteService;
 
     @Test
     public void testGetAllCompanyNotes()
@@ -37,6 +37,15 @@ public class CompanyNoteServiceTest extends BaseServiceTests {
     }
 
     @Test
+    public void testCompanyNoteJson() {
+        String jsonCompany = "src/test/resources/json/company/company_note_create_01.json";
+        ObjectMapper mapper = JobSearchUtils.getObjectMapper();
+        File file = new File(jsonCompany);
+        CompanyNoteEntity companyNoteEntity = mapper.readValue(file, CompanyNoteEntity.class);
+        assertNotNull(companyNoteEntity);
+    }
+
+    @Test
     public void testCreateCompanyNote()
     {
         String jsonCompany = "src/test/resources/json/company/company_note_create_01.json";
@@ -48,5 +57,14 @@ public class CompanyNoteServiceTest extends BaseServiceTests {
         companyNoteEntity = noteService.createCompanyNote(companyNoteEntity);
         assertNotNull(companyNoteEntity);
         System.out.println(companyNoteEntity);
+    }
+
+    @Test
+    public void testGetCompanyNoteByCompanyId()
+    {
+        long companyId = 1;
+        List<CompanyNoteEntity> noteList =  noteService.getCompanyNotesByCompanyId(companyId);
+        assertNotNull(noteList);
+        assertEquals(2, noteList.size());
     }
 }

@@ -36,7 +36,13 @@
 <div id="search-results">
     <!-- Define the fragment that can be returned independently by the server -->
     <ul th:fragment="company-list">
-        <li th:each="company : ${companies}" th:text="${company}">Company Name</li>
+        <li th:each="company : ${companies}">
+            <a th:text="${company.companyName}"
+               th:href="@{/company-notes/{id}(id=${company.id})}"
+               hx-get="@{/company-notes/{id}(id=${company.id})}"
+               hx-target="#main-content"
+               hx-swap="innerHTML">Company Name</a>
+        </li>
         <li th:if="${#lists.isEmpty(companies)}">No companies found.</li>
     </ul>
 </div>

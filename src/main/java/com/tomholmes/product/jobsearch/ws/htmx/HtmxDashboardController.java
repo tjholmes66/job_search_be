@@ -58,8 +58,8 @@ public class HtmxDashboardController {
             // Only show Reporting Suite to Moderators or Admins or Users
             if (authorities.contains("ROLE_USERS") || authorities.contains("ROLE_ADMINS")) {
                 List<Map<String, String>> subMenuItems = new ArrayList<>();
-                subMenuItems.add(Map.of("name", "System Settings", "url", "/settings"));
-                subMenuItems.add(Map.of("name", "List Application", "url", "/"));
+                subMenuItems.add(Map.of("name", "My Applications", "url", "/"));
+                subMenuItems.add(Map.of("name", "Company Notes", "url", "/company-notes/companies"));
                 menuItems.put("User Menu", subMenuItems);
             }
         }

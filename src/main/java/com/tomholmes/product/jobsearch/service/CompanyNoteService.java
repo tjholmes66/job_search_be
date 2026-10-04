@@ -12,6 +12,8 @@ public interface CompanyNoteService {
     // RETRIEVE
     List<CompanyNoteEntity> getAllCompanyNotes();
 
+    List<CompanyNoteEntity> getCompanyNotesByCompanyId(Long companyId);
+
     CompanyNoteEntity getById(long id);
 
     // UPDATE

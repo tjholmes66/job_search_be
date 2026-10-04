@@ -10,6 +10,8 @@ import com.tomholmes.product.jobsearch.model.CompanyNoteEntity;
 import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
 import org.springframework.boot.jdbc.test.autoconfigure.AutoConfigureTestDatabase;
 
+import java.util.List;
+
 @AutoConfigureTestDatabase(replace= AutoConfigureTestDatabase.Replace.NONE)
 @DataJpaTest
 public class CompanyNoteRepositoryTest
@@ -26,5 +28,13 @@ public class CompanyNoteRepositoryTest
         assertEquals(id, companyNoteEntity.getId());
         assertNotNull(companyNoteEntity);
         assertEquals(companyId, companyNoteEntity.getCompany().getId());
+    }
+
+    @Test
+    public void testFindByCompanyId() {
+        long companyId = 1;
+        List<CompanyNoteEntity> noteList = repository.findByCompanyId(companyId);
+        assertNotNull(noteList);
+        assertEquals(2, noteList.size());
     }
 }

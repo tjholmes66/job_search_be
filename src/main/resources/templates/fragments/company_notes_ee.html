@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Company Notes</title>
+    <script th:src="@{/js/htmx.min.js}"></script>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 20px;
+        }
+
+        .notes-layout {
+            display: flex;
+            gap: 20px;
+        }
+
+        .notes-layout .left-col {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .notes-layout .right-col {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .company-data {
+            background-color: #f4f4f4;
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 4px;
+        }
+
+        .company-data h2 {
+            margin-top: 0;
+        }
+
+        .company-data table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        .company-data th, .company-data td {
+            text-align: left;
+            padding: 6px 10px;
+            border-bottom: 1px solid #ddd;
+            vertical-align: top;
+        }
+
+        .company-data th {
+            width: 160px;
+            color: #555;
+        }
+
+        .note-form {
+            background-color: #fffbe6;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+
+        .note-form textarea {
+            width: 100%;
+            min-height: 80px;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+
+        .notes-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .notes-list li {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .note-date {
+            color: #666;
+            font-size: 0.85em;
+        }
+
+        #company-select {
+            width: 100%;
+            padding: 8px;
+        }
+
+        #no-company-msg {
+            color: #777;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Company Notes</h2>
+
+
+<div class="notes-layout">
+    <table border="1">
+        <tr>
+            <td>
+
+                <!-- LEFT: company picker + selected company data (read-only) -->
+                <div class="left-col">
+                    <label for="company-select"><strong>Select a Company</strong></label>
+                    <br/>
+                    <select id="company-select" size=20 onchange="selectCompany(this.value)">
+                        <option value="">-- Select a company --</option>
+                        <option th:each="c : ${companies}"
+                                th:value="${c.id}"
+                                th:text="${c.companyName}"
+                                th:selected="${company != null and c.id == company.id}">Company
+                        </option>
+                    </select>
+
+            </td>
+            <td>
+
+                <div id="company-data-container">
+                    <div th:if="${company == null}" id="no-company-msg">
+                        No company selected. Please select a company above to view its details.
+                    </div>
+                    <div th:if="${company != null}" th:fragment="company-data" class="company-data">
+                        <h2 th:text="${company.companyName}">Company Name</h2>
+                        <table>
+                            <tr>
+                                <th>Active</th>
+                                <td th:text="${company.active}">true</td>
+                            </tr>
+                            <tr>
+                                <th>Take Home Test</th>
+                                <td th:text="${company.takeHomeTest}">false</td>
+                            </tr>
+                            <tr>
+                                <th>Technical Interview</th>
+                                <td th:text="${company.technicalInterview}">false</td>
+                            </tr>
+                            <tr>
+                                <th>Technical Interview Date</th>
+                                <td th:text="${company.technicalInterviewDate}"></td>
+                            </tr>
+                            <tr>
+                                <th>HR Person</th>
+                                <td th:text="${company.hrPerson}"></td>
+                            </tr>
+                            <tr>
+                                <th>HR Email</th>
+                                <td th:text="${company.hrEmail}"></td>
+                            </tr>
+                            <tr>
+                                <th>HR Phone</th>
+                                <td th:text="${company.hrPhone}"></td>
+                            </tr>
+                            <tr>
+                                <th>Hiring Manager</th>
+                                <td th:text="${company.hiringManager}"></td>
+                            </tr>
+                            <tr>
+                                <th>Has Recruiter</th>
+                                <td th:text="${company.recruiter}"></td>
+                            </tr>
+                            <tr>
+                                <th>Recruiter Name</th>
+                                <td th:text="${company.recruiterName}"></td>
+                            </tr>
+                            <tr>
+                                <th>Recruiter Email</th>
+                                <td th:text="${company.recruiterEmail}"></td>
+                            </tr>
+                            <tr>
+                                <th>Recruiter Phone</th>
+                                <td th:text="${company.recruiterPhone}"></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+</div>
+
+</td>
+<td>
+
+    <!-- RIGHT: new note form + notes list -->
+    <div class="right-col">
+        <div id="note-form-container">
+            <div th:if="${company == null}" id="no-company-msg">
+                Select a company to add notes.
+            </div>
+            <form th:if="${company != null}" id="new-note-form" class="note-form"
+                  th:hx-post="@{/company-notes/{id}/notes(id=${company.id})}"
+                  hx-target="#notes-container"
+                  hx-swap="innerHTML"
+                  hx-on::after-request="this.reset()">
+                <h3>Add a Note</h3>
+                <textarea name="notes" placeholder="Enter note..." required></textarea>
+                <button type="submit">Save Note</button>
+            </form>
+        </div>
+
+        <div id="notes-container">
+            <ul th:if="${notes != null}" th:fragment="notes-list" id="notes-list" class="notes-list">
+                <li th:each="note : ${notes}">
+                    <div th:text="${note.notes}">Note text</div>
+                    <div class="note-date" th:text="${note.noteDate}">Date</div>
+                </li>
+                <li th:if="${#lists.isEmpty(notes)}">No notes for this company yet.</li>
+            </ul>
+        </div>
+    </div>
+
+</td>
+
+</tr>
+</table>
+
+</div>
+
+
+<script>
+    function selectCompany(id) {
+        var dataContainer = document.getElementById('company-data-container');
+        var formContainer = document.getElementById('note-form-container');
+
+        if (!id) {
+            dataContainer.innerHTML = '<div id="no-company-msg">No company selected. Please select a company above to view its details.</div>';
+            formContainer.innerHTML = '<div id="no-company-msg">Select a company to add notes.</div>';
+            document.getElementById('notes-container').innerHTML = '';
+            return;
+        }
+
+        // Load company detail into left column
+        htmx.ajax('GET', '/company-notes/' + id + '/data', {target: '#company-data-container', swap: 'innerHTML'});
+
+        // Rebuild the note form with the right post URL
+        formContainer.innerHTML =
+            '<form id="new-note-form" class="note-form" hx-post="/company-notes/' + id + '/notes" ' +
+            'hx-target="#notes-container" hx-swap="innerHTML" hx-on::after-request="this.reset()">' +
+            '<h3>Add a Note</h3>' +
+            '<textarea name="notes" placeholder="Enter note..." required></textarea>' +
+            '<button type="submit">Save Note</button></form>';
+        htmx.process(formContainer);
+
+        // Load notes list into right column
+        htmx.ajax('GET', '/company-notes/' + id + '/notes', {target: '#notes-container', swap: 'innerHTML'});
+    }
+</script>
+
+</body>
+</html>
