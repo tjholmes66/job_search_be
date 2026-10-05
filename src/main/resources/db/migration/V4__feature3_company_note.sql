@@ -1,0 +1,2 @@
+ALTER TABLE `company_note`
+CHANGE COLUMN `private` is_active BOOLEAN NOT NULL DEFAULT FALSE;

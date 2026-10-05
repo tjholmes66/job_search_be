@@ -1,6 +1,6 @@
 services:
   mysqldb:
-    image: 'mysql:latest'
+    image: 'mysql:8.0.40'
     container_name: mysql-db-ats
     environment:
       - 'MYSQL_DATABASE=job_search_db'
@@ -9,13 +9,13 @@ services:
       - 'MYSQL_USER=job_search_user'
     
     # Added Platform for my local setup
-    platform: linux/amd64 
-    
+    #platform: linux/amd64 
+    platform: linux/arm64 
     ports:
       - '3306:3306'
     volumes:
       - mysql-data:/var/lib/mysql
-      - ./job_search_db.sql:/docker-entrypoint-initdb.d/job_search_db.sql
+     # - ./job_search_db.sql:/docker-entrypoint-initdb.d/job_search_db.sql
      # - ./provision_users.sql:/docker-entrypoint-initdb.d/01-provision_users.sql
       - ./src/main/resources/db/migration:/docker-entrypoint-initdb.d
     healthcheck:
