@@ -41,9 +41,9 @@ public class CompanyNoteServiceImpl implements CompanyNoteService {
     @Override
     public CompanyNoteEntity createCompanyNote(CompanyNoteEntity newNote) {
 
-        newNote.setCreatedBy(1);  // default for now
+        newNote.setCreatedBy(1L);  // default for now
         newNote.setCreatedDate(LocalDateTime.now());
-        newNote.setUpdatedBy(1);  // default for now
+        newNote.setUpdatedBy(1L);  // default for now
         newNote.setUpdatedDate(LocalDateTime.now());
 
         CompanyNoteEntity noteEntity = companyNoteRepository.save(newNote);
@@ -53,7 +53,7 @@ public class CompanyNoteServiceImpl implements CompanyNoteService {
     @Override
     public CompanyNoteEntity updateCompanyNote(CompanyNoteEntity companyNote)
     {
-        companyNote.setUpdatedBy(1);  // default for now
+        companyNote.setUpdatedBy(1L);  // default for now
         companyNote.setUpdatedDate(LocalDateTime.now());
 
         CompanyNoteEntity updatedNote = companyNoteRepository.saveAndFlush(companyNote);

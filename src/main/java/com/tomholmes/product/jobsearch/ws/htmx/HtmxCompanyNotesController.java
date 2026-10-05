@@ -71,9 +71,9 @@ public class HtmxCompanyNotesController {
         CompanyEntity company = companyService.getById(companyId);
         note.setCompany(company);
         note.setNoteDate(LocalDateTime.now());
-        note.setCreatedBy(1);
+        note.setCreatedBy(1L);
         note.setCreatedDate(LocalDateTime.now());
-        note.setUpdatedBy(1);
+        note.setUpdatedBy(1L);
         note.setUpdatedDate(LocalDateTime.now());
         companyNoteRepository.save(note);
 
