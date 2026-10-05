@@ -58,23 +58,23 @@ public class ApplicationNoteEntity implements Serializable
     private boolean privateNote;
     
     @Column(name = "created_by")
-    private long createdBy;
+    private Long createdBy;
 
     @Column(name = "created_date")
     private LocalDateTime createdDate;
 
     @Column(name = "updated_by")
-    private long updatedBy;
+    private Long updatedBy;
 
     @Column(name = "updated_date")
     private LocalDateTime updatedDate;
 
-    public long getId()
+    public Long getId()
     {
         return id;
     }
 
-    public void setId(long id)
+    public void setId(Long id)
     {
         this.id = id;
     }
@@ -119,12 +119,12 @@ public class ApplicationNoteEntity implements Serializable
         this.privateNote = privateNote;
     }
 
-    public long getCreatedBy()
+    public Long getCreatedBy()
     {
         return createdBy;
     }
 
-    public void setCreatedBy(long createdBy)
+    public void setCreatedBy(Long createdBy)
     {
         this.createdBy = createdBy;
     }
@@ -139,12 +139,12 @@ public class ApplicationNoteEntity implements Serializable
         this.createdDate = createdDate;
     }
 
-    public long getUpdatedBy()
+    public Long getUpdatedBy()
     {
         return updatedBy;
     }
 
-    public void setUpdatedBy(long updatedBy)
+    public void setUpdatedBy(Long updatedBy)
     {
         this.updatedBy = updatedBy;
     }

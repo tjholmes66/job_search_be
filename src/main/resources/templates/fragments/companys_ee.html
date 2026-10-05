@@ -1,39 +1,35 @@
 <!DOCTYPE html>
-<html xmlns:th="http://thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Company Management</title>
-
+    <title>Job Search Applications</title>
     <script th:src="@{/js/htmx.min.js}"></script>
-
     <style>
         body { font-family: sans-serif; margin: 40px; }
-        .search-box { margin-bottom: 20px; padding: 8px; width: 250px; }
-        ul { list-style: none; padding: 0; }
-        li { padding: 8px; border-bottom: 1px solid #eee; width: 250px; }
+        table { border-collapse: collapse; width: 100%; border: 2px solid black; }
+        th, td { border: 1px solid black; padding: 8px 12px; text-align: left; }
+        th { background-color: #f4f4f4; border-bottom: 2px solid black; }
+        tr:nth-child(even) { background-color: #fafafa; }
+        .badge { padding: 2px 8px; border-radius: 4px; font-size: 0.85em; }
+        .badge-rejected { background-color: #f8d7da; color: #842029; }
+        .badge-active { background-color: #d1e7dd; color: #0f5132; }
+        .badge-closed { background-color: #e2e3e5; color: #41464b; }
+        .btn { padding: 6px 12px; border: 1px solid #ccc; border-radius: 4px; cursor: pointer; background: #fff; }
+        .btn-primary { background: #0d6efd; color: #fff; border-color: #0d6efd; }
+        .btn-sm { padding: 4px 8px; font-size: 0.85em; }
+        .btn-outline-primary { color: #0d6efd; border-color: #0d6efd; background: #fff; }
+        .btn-outline-danger { color: #dc3545; border-color: #dc3545; background: #fff; }
+        .form-row { background-color: #fffbe6; }
+        .form-row input { width: 100%; padding: 4px 8px; box-sizing: border-box; }
+        .button-row { margin-bottom: 15px; }
     </style>
 </head>
 <body>
 
-<h2>Companies Directory</h2>
+<h2>Job Search Companies</h2>
 
-<!-- htmx Attributes:
-     hx-get: Sends an AJAX GET request to the backend as the company types
-     hx-trigger: Fires on 'keyup', but waits 300ms (debounce) so it doesn't flood the server
-     hx-target: Directs the HTML response to overwrite the element matching this ID
-     name="q": Map this input automatically to the @RequestParam("q") in Java
--->
-<label>
-    <input type="text"
-           name="q"
-           placeholder="Type to filter companys..."
-           class="search-box"
-           hx-get="/companys/search"
-           hx-trigger="keyup changed delay:300ms"
-           hx-target="#search-results" />
-</label>
-
-<!-- Container that htmx will swap the response into -->
+<!-- Full page load target -->
 <div id="search-results">
+
     <!-- Define the fragment that can be returned independently by the server -->
     <ul th:fragment="company-list">
         <li th:each="company : ${companies}">
@@ -45,7 +41,140 @@
         </li>
         <li th:if="${#lists.isEmpty(companies)}">No companies found.</li>
     </ul>
+
+    <!-- Create New Company button -->
+    <div class="button-row">
+        <button class="btn btn-primary"
+                hx-get="@{/companies/new}"
+                hx-target="#new-row-container"
+                hx-swap="innerHTML">
+            + New Company
+        </button>
+    </div>
+
+    <!-- Container where the new-row form gets swapped in -->
+    <div id="new-row-container"></div>
+
+    <table>
+
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Company Name</th>
+            <th>Active</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+
+        <tbody th:fragment="company-list">
+            <!-- Iterate over each company -->
+            <tr th:each="company : ${companies}"
+                th:id="'company-row-' + ${company.id}"
+                hx-target="this"
+                hx-swap="outerHTML">
+
+                <td th:text="${company.id}"></td>
+                <td>
+                    <a th:text="${company.companyName}"
+                       th:href="@{/companies/{id}(id=${company.id})}"></a>
+                </td>
+                <td th:text="${company.active}"></td>
+                <td>
+                    <!-- Edit button: HTMX swap-in an edit form row -->
+                    <button hx-get="@{/companies/{id}/edit(id=${company.id})}"
+                            class="btn btn-sm btn-outline-primary">
+                        Edit
+                    </button>
+
+                    <!-- Delete button: removes the row on success -->
+                    <button hx-delete="@{/companies/{id}(id=${company.id})}"
+                            hx-confirm="Delete this company?"
+                            class="btn btn-sm btn-outline-danger">
+                        Delete
+                    </button>
+                </td>
+            </tr>
+
+            <!-- Empty state when list is empty -->
+            <tr>
+                <td colspan="4" class="text-center text-muted"
+                    th:if="${#lists.isEmpty(companies)}">
+                    No companies found.
+                </td>
+            </tr>
+        </tbody>
+
+    </table>
 </div>
+
+<!-- ============================================================ -->
+<!-- FRAGMENTS (returned independently by the server for HTMX)   -->
+<!-- ============================================================ -->
+
+<!-- Single company row (used for display & canceling an edit) -->
+<tr th:fragment="company-row" th:if="${company != null}"
+    th:id="'company-row-' + ${company.id}" hx-target="this" hx-swap="outerHTML">
+    <td th:text="${company.id}"></td>
+    <td>
+        <a th:text="${company.companyName}"
+           th:href="@{/companies/{id}(id=${company.id})}"></a>
+    </td>
+    <td th:text="${company.active}"></td>
+    <td>
+        <button hx-get="@{/companies/{id}/edit(id=${company.id})}"
+                class="btn btn-sm btn-outline-primary">
+            Edit
+        </button>
+        <button hx-delete="@{/companies/{id}(id=${company.id})}"
+                hx-confirm="Delete this company?"
+                class="btn btn-sm btn-outline-danger">
+            Delete
+        </button>
+    </td>
+</tr>
+
+<!-- Inline edit form row -->
+<tr th:fragment="company-edit-row" th:if="${company != null}" class="form-row"
+    th:id="'company-row-' + ${company.id}">
+    <td><span th:text="${company.id}"></span></td>
+    <td><input type="text" th:field="${companyName}" placeholder="Company Name"></td>
+    <td><input type="checkbox" th:field="${active}"></td>
+    <td>
+        <button class="btn btn-sm btn-primary"
+                th:hx-put="@{/companies/{id}(id=${company.id})}"
+                th:hx-include="closest tr">
+            Save
+        </button>
+        <button class="btn btn-sm"
+                th:hx-get="@{/companies/{id}(id=${company.id})}"
+                hx-target="closest tr"
+                hx-swap="outerHTML">
+            Cancel
+        </button>
+    </td>
+</tr>
+
+<!-- New company form row -->
+<tr th:fragment="company-new-row" class="form-row" id="new-company-row">
+    <td></td>
+    <td><input type="text" name="companyName" placeholder="Company Name" required></td>
+    <td><input type="checkbox" name="active" checked></td>
+    <td>
+        <button class="btn btn-sm btn-primary"
+                hx-post="@{/companies}"
+                hx-include="closest tr"
+                hx-target="#new-row-container"
+                hx-swap="innerHTML">
+            Save
+        </button>
+        <button class="btn btn-sm"
+                hx-get="@{/companies/cancel-new}"
+                hx-target="#new-row-container"
+                hx-swap="innerHTML">
+            Cancel
+        </button>
+    </td>
+</tr>
 
 </body>
 </html>

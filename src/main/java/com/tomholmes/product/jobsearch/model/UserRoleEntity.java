@@ -49,23 +49,23 @@ public class UserRoleEntity implements Serializable
     private RoleEntity role;
     
     @Column(name = "created_by")
-    private long createdBy;
+    private Long createdBy;
 
     @Column(name = "created_date")
     private LocalDateTime createdDate;
 
     @Column(name = "updated_by")
-    private long updatedBy;
+    private Long updatedBy;
 
     @Column(name = "updated_date")
     private LocalDateTime updatedDate;
 
-    public long getId()
+    public Long getId()
     {
         return Id;
     }
 
-    public void setId(long id)
+    public void setId(Long id)
     {
         Id = id;
     }
@@ -90,12 +90,12 @@ public class UserRoleEntity implements Serializable
         this.role = role;
     }
 
-    public long getCreatedBy()
+    public Long getCreatedBy()
     {
         return createdBy;
     }
 
-    public void setCreatedBy(long createdBy)
+    public void setCreatedBy(Long createdBy)
     {
         this.createdBy = createdBy;
     }
@@ -110,12 +110,12 @@ public class UserRoleEntity implements Serializable
         this.createdDate = createdDate;
     }
 
-    public long getUpdatedBy()
+    public Long getUpdatedBy()
     {
         return updatedBy;
     }
 
-    public void setUpdatedBy(long updatedBy)
+    public void setUpdatedBy(Long updatedBy)
     {
         this.updatedBy = updatedBy;
     }

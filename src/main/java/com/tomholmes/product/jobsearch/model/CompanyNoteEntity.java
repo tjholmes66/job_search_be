@@ -58,22 +58,24 @@ public class CompanyNoteEntity implements Serializable
     private boolean active;
     
     @Column(name = "created_by")
-    private long createdBy;
+    private Long createdBy;
 
     @Column(name = "created_date")
     private LocalDateTime createdDate;
 
     @Column(name = "updated_by")
-    private long updatedBy;
+    private Long updatedBy;
 
     @Column(name = "updated_date")
     private LocalDateTime updatedDate;
 
-    public Long getId() {
+    public Long getId()
+    {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Long id)
+    {
         this.id = id;
     }
 
@@ -109,11 +111,13 @@ public class CompanyNoteEntity implements Serializable
         this.active = active;
     }
 
-    public long getCreatedBy() {
+    public Long getCreatedBy()
+    {
         return createdBy;
     }
 
-    public void setCreatedBy(long createdBy) {
+    public void setCreatedBy(Long createdBy)
+    {
         this.createdBy = createdBy;
     }
 
@@ -124,12 +128,14 @@ public class CompanyNoteEntity implements Serializable
     public void setCreatedDate(LocalDateTime createdDate) {
         this.createdDate = createdDate;
     }
-
-    public long getUpdatedBy() {
+    
+    public Long getUpdatedBy()
+    {
         return updatedBy;
     }
 
-    public void setUpdatedBy(long updatedBy) {
+    public void setUpdatedBy(Long updatedBy)
+    {
         this.updatedBy = updatedBy;
     }
 

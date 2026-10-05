@@ -55,7 +55,7 @@ public class ApplicationEntity implements Serializable
     
     // `rejected` tinyint NOT NULL DEFAULT '0',
     @Column(name = "rejected")
-    private boolean rejected;
+    private Boolean rejected;
     
     // `rejected_date` datetime DEFAULT NULL,
     @Column(name = "rejected_date")
@@ -67,7 +67,7 @@ public class ApplicationEntity implements Serializable
     
     // `recruiter_company` varchar(45) DEFAULT NULL,
     @Column(name = "recruiter_company")
-    private String recruiter_company;
+    private String recruiterCompany;
     
     // `company_id` int NOT NULL,
     @ManyToOne
@@ -87,185 +87,171 @@ public class ApplicationEntity implements Serializable
     private LocalDateTime applicationDate;
     
     @Column(name = "created_by")
-    private long createdBy;
+    private Long createdBy;
 
     @Column(name = "created_date")
     private LocalDateTime createdDate;
 
     @Column(name = "updated_by")
-    private long updatedBy;
+    private Long updatedBy;
 
     @Column(name = "updated_date")
     private LocalDateTime updatedDate;
 
-    public long getId()
-    {
+    @ManyToOne
+    @JoinColumn(name = "application_source")
+    private ApplicationSourceEntity applicationSource;
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id)
-    {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public UserEntity getUser()
-    {
+    public UserEntity getUser() {
         return user;
     }
 
-    public void setUser(UserEntity user)
-    {
+    public void setUser(UserEntity user) {
         this.user = user;
     }
 
-    public boolean isRejected()
-    {
+    public Boolean isRejected() {
         return rejected;
     }
 
-    public void setRejected(boolean rejected)
-    {
+    public void setRejected(Boolean rejected) {
         this.rejected = rejected;
     }
 
-    public LocalDateTime getRejectedDate()
-    {
+    public LocalDateTime getRejectedDate() {
         return rejectedDate;
     }
 
-    public void setRejectedDate(LocalDateTime rejectedDate)
-    {
+    public void setRejectedDate(LocalDateTime rejectedDate) {
         this.rejectedDate = rejectedDate;
     }
 
-    public String getRecruiterName()
-    {
+    public String getRecruiterName() {
         return recruiterName;
     }
 
-    public void setRecruiterName(String recruiterName)
-    {
+    public void setRecruiterName(String recruiterName) {
         this.recruiterName = recruiterName;
     }
 
-    public String getRecruiter_company()
-    {
-        return recruiter_company;
+    public String getRecruiterCompany() {
+        return recruiterCompany;
     }
 
-    public void setRecruiter_company(String recruiter_company)
-    {
-        this.recruiter_company = recruiter_company;
+    public void setRecruiterCompany(String recruiterCompany) {
+        this.recruiterCompany = recruiterCompany;
     }
 
-    public CompanyEntity getCompany()
-    {
+    public CompanyEntity getCompany() {
         return company;
     }
 
-    public void setCompany(CompanyEntity company)
-    {
+    public void setCompany(CompanyEntity company) {
         this.company = company;
     }
 
-    public String getCompanyJobId()
-    {
+    public String getCompanyJobId() {
         return companyJobId;
     }
 
-    public void setCompanyJobId(String companyJobId)
-    {
+    public void setCompanyJobId(String companyJobId) {
         this.companyJobId = companyJobId;
     }
 
-    public String getHiringManager()
-    {
+    public String getHiringManager() {
         return hiringManager;
     }
 
-    public void setHiringManager(String hiringManager)
-    {
+    public void setHiringManager(String hiringManager) {
         this.hiringManager = hiringManager;
     }
 
-    public LocalDateTime getApplicationDate()
-    {
+    public LocalDateTime getApplicationDate() {
         return applicationDate;
     }
 
-    public void setApplicationDate(LocalDateTime applicationDate)
-    {
+    public void setApplicationDate(LocalDateTime applicationDate) {
         this.applicationDate = applicationDate;
     }
 
-    public long getCreatedBy()
-    {
+    public Long getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(long createdBy)
-    {
+    public void setCreatedBy(Long createdBy) {
         this.createdBy = createdBy;
     }
 
-    public LocalDateTime getCreatedDate()
-    {
+    public LocalDateTime getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(LocalDateTime createdDate)
-    {
+    public void setCreatedDate(LocalDateTime createdDate) {
         this.createdDate = createdDate;
     }
 
-    public long getUpdatedBy()
-    {
+    public Long getUpdatedBy() {
         return updatedBy;
     }
 
-    public void setUpdatedBy(long updatedBy)
-    {
+    public void setUpdatedBy(Long updatedBy) {
         this.updatedBy = updatedBy;
     }
 
-    public LocalDateTime getUpdatedDate()
-    {
+    public LocalDateTime getUpdatedDate() {
         return updatedDate;
     }
 
-    public void setUpdatedDate(LocalDateTime updatedDate)
-    {
+    public void setUpdatedDate(LocalDateTime updatedDate) {
         this.updatedDate = updatedDate;
     }
 
-    @Override
-    public int hashCode()
-    {
-        return Objects.hash(applicationDate, company, companyJobId, createdBy, createdDate, hiringManager, id, recruiterName, recruiter_company, rejected, rejectedDate, updatedBy, updatedDate, user);
+    public ApplicationSourceEntity getApplicationSource() {
+        return applicationSource;
+    }
+
+    public void setApplicationSource(ApplicationSourceEntity applicationSource) {
+        this.applicationSource = applicationSource;
     }
 
     @Override
-    public boolean equals(Object obj)
-    {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        ApplicationEntity other = (ApplicationEntity) obj;
-        return Objects.equals(applicationDate, other.applicationDate) && Objects.equals(company, other.company) && Objects.equals(companyJobId, other.companyJobId) && createdBy == other.createdBy
-            && Objects.equals(createdDate, other.createdDate) && Objects.equals(hiringManager, other.hiringManager) && id == other.id && Objects.equals(recruiterName, other.recruiterName)
-            && Objects.equals(recruiter_company, other.recruiter_company) && rejected == other.rejected && Objects.equals(rejectedDate, other.rejectedDate) && updatedBy == other.updatedBy
-            && Objects.equals(updatedDate, other.updatedDate) && Objects.equals(user, other.user);
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        ApplicationEntity that = (ApplicationEntity) o;
+        return rejected == that.rejected && createdBy == that.createdBy && updatedBy == that.updatedBy && Objects.equals(id, that.id) && Objects.equals(user, that.user) && Objects.equals(rejectedDate, that.rejectedDate) && Objects.equals(recruiterName, that.recruiterName) && Objects.equals(recruiterCompany, that.recruiterCompany) && Objects.equals(company, that.company) && Objects.equals(companyJobId, that.companyJobId) && Objects.equals(hiringManager, that.hiringManager) && Objects.equals(applicationDate, that.applicationDate) && Objects.equals(createdDate, that.createdDate) && Objects.equals(updatedDate, that.updatedDate) && Objects.equals(applicationSource, that.applicationSource);
     }
 
     @Override
-    public String toString()
-    {
-        return "ApplicationEntity [id=" + id + ", user=" + user + ", rejected=" + rejected + ", rejectedDate=" + rejectedDate + ", recruiterName=" + recruiterName + ", recruiter_company="
-            + recruiter_company + ", company=" + company + ", companyJobId=" + companyJobId + ", hiringManager=" + hiringManager + ", applicationDate=" + applicationDate + ", createdBy=" + createdBy
-            + ", createdDate=" + createdDate + ", updatedBy=" + updatedBy + ", updatedDate=" + updatedDate + "]";
+    public int hashCode() {
+        return Objects.hash(id, user, rejected, rejectedDate, recruiterName, recruiterCompany, company, companyJobId, hiringManager, applicationDate, createdBy, createdDate, updatedBy, updatedDate, applicationSource);
     }
-    
+
+    @Override
+    public String toString() {
+        return "ApplicationEntity{" +
+                "id=" + id +
+                ", user=" + user +
+                ", rejected=" + rejected +
+                ", rejectedDate=" + rejectedDate +
+                ", recruiterName='" + recruiterName + '\'' +
+                ", recruiterCompany='" + recruiterCompany + '\'' +
+                ", company=" + company +
+                ", companyJobId='" + companyJobId + '\'' +
+                ", hiringManager='" + hiringManager + '\'' +
+                ", applicationDate=" + applicationDate +
+                ", createdBy=" + createdBy +
+                ", createdDate=" + createdDate +
+                ", updatedBy=" + updatedBy +
+                ", updatedDate=" + updatedDate +
+                ", applicationSource=" + applicationSource +
+                '}';
+    }
 }
