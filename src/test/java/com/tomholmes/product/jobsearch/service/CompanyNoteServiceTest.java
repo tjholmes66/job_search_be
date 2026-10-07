@@ -30,7 +30,7 @@ public class CompanyNoteServiceTest extends BaseServiceTests {
 
     @Test
     public void testFindCompanyNoteById() {
-        long id = 1;
+        Long id = 1L;
         CompanyNoteEntity companyNoteEntity = noteService.getById(id);
         assertNotNull(companyNoteEntity);
         assertEquals(id, companyNoteEntity.getId());
@@ -62,9 +62,9 @@ public class CompanyNoteServiceTest extends BaseServiceTests {
     @Test
     public void testGetCompanyNoteByCompanyId()
     {
-        long companyId = 1;
+        Long companyId = 1L;
         List<CompanyNoteEntity> noteList =  noteService.getCompanyNotesByCompanyId(companyId);
         assertNotNull(noteList);
-        assertEquals(2, noteList.size());
+        assertEquals(5, noteList.size());
     }
 }

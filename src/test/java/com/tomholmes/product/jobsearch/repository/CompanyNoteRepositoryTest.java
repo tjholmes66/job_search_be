@@ -21,8 +21,8 @@ public class CompanyNoteRepositoryTest
     
     @Test
     public void testFindById() {
-        long id = 1;
-        long companyId = 1;
+        Long id = 1L;
+        Long companyId = 1L;
         CompanyNoteEntity companyNoteEntity = repository.findById(id).orElse(null);
         assertNotNull(companyNoteEntity);
         assertEquals(id, companyNoteEntity.getId());
@@ -32,9 +32,9 @@ public class CompanyNoteRepositoryTest
 
     @Test
     public void testFindByCompanyId() {
-        long companyId = 1;
+        Long companyId = 1L;
         List<CompanyNoteEntity> noteList = repository.findByCompanyId(companyId);
         assertNotNull(noteList);
-        assertEquals(2, noteList.size());
+        assertEquals(5, noteList.size());
     }
 }

@@ -23,7 +23,7 @@ public class UserRoleRepositoryTest
     
     @Test
     public void testFindById() {
-        long id = 1;
+        Long id = 1L;
         UserRoleEntity userRoleEntity = repository.findById(id).orElse(null);
         assertNotNull(userRoleEntity);
         assertEquals(id, userRoleEntity.getId());
@@ -33,7 +33,7 @@ public class UserRoleRepositoryTest
     
     @Test
     public void testFindUsersByRoleId() {
-        long roleId = 1;
+        Long roleId = 1L;
         List<UserEntity> userList = repository.findUserByRoleId(roleId);
         assertNotNull(userList);
         assertEquals(3, userList.size());
@@ -41,7 +41,7 @@ public class UserRoleRepositoryTest
     
     @Test
     public void testFindRolesByUserId() {
-        long userId = 1;
+        Long userId = 1L;
         List<RoleEntity> roleList = repository.findRoleByUserId(userId);
         assertNotNull(roleList);
         assertEquals(2, roleList.size());

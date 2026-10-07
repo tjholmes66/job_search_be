@@ -19,8 +19,8 @@ public class CompanyVotingRepositoryTest extends BaseRepositoryTest {
 
     @Test
     public void testFindById() {
-        long id = 1;
-        long companyId = 1;
+        Long id = 1L;
+        Long companyId = 1L;
         CompanyVotingEntity companyVoteEntity = repository.findById(id).orElse(null);
         assertNotNull(companyVoteEntity);
         assertEquals(id, companyVoteEntity.getId());
@@ -30,7 +30,7 @@ public class CompanyVotingRepositoryTest extends BaseRepositoryTest {
 
     @Test
     public void testFindGhostVotes() {
-        long ghost_vote = 1;
+        Long ghost_vote = 1L;
         List<CompanyVotingEntity> ghostVotes = repository.getGhostUpvote(ghost_vote);
         assertNotNull(ghostVotes);
         assertEquals(1, ghostVotes.size());

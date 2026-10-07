@@ -17,8 +17,8 @@ public class ApplicationNoteRepositoryTest extends BaseRepositoryTest
     
     @Test
     public void testFindById() {
-        long id = 1;
-        long applicationId = 1;
+        Long id = 1L;
+        Long applicationId = 1L;
         ApplicationNoteEntity applicationNoteEntity = repository.findById(id).orElse(null);
         assertNotNull(applicationNoteEntity);
         assertEquals(id, applicationNoteEntity.getId());
@@ -28,8 +28,8 @@ public class ApplicationNoteRepositoryTest extends BaseRepositoryTest
     
     @Test
     public void testFindByApplicationId() {
-        long id = 1;
-        long applicationId = 1;
+        Long id = 1L;
+        Long applicationId = 1L;
         List<ApplicationNoteEntity> applicationNoteList = repository.findByApplicationId(applicationId);
         assertNotNull(applicationNoteList);
         assertEquals(1, applicationNoteList.size());

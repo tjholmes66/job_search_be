@@ -23,15 +23,13 @@ public class UserRepositoryTest
 {
     @Autowired
     private UserRepository userRepository;
-
-    private long _Id = 0;
     private String _username = "test";
     private String _emailAddress = "tom@tomholmes.xyz";
     private boolean _userActive = true;
     private String _userFirstName = "test_FN";
     private String _userLastName = "test_LN";
-    private long _editedBy = 1;
-    private long _enteredBy = 1;
+    private Long _editedBy = 1L;
+    private Long _enteredBy = 1L;
     private LocalDateTime _editedDate = LocalDateTime.now();
     private LocalDateTime _enteredDate = LocalDateTime.now();
     private String _cellPhone = "123-456-7890";
@@ -39,8 +37,6 @@ public class UserRepositoryTest
     private UserEntity save()
     {
         UserEntity userEntity = new UserEntity();
-
-        userEntity.setId(_Id);
 
         userEntity.setUsername(_username);
 
@@ -65,7 +61,7 @@ public class UserRepositoryTest
     
     @Test
     public void testFindById() {
-        long id = 1;
+        Long id = 1L;
         UserEntity userEntity = userRepository.findById(id).orElse(null);
         assertNotNull(userEntity);
         assertEquals(id, userEntity.getId());
@@ -114,10 +110,10 @@ public class UserRepositoryTest
         System.out.println("testUserUpdate: FINISH");
     }
 
-    // void deleteUserEntity(long userId);
+    // void deleteUserEntity(Long userId);
     // void deleteUserEntity(UserEntity userEntity);
 
-    // UserEntity getUserEntity(long userId);
+    // UserEntity getUserEntity(Long userId);
     @Test
     public void testGetUserEntityById()
     {
@@ -131,7 +127,7 @@ public class UserRepositoryTest
         assertNotSame(0, userEntity.getId());
         assertEquals(_username, userEntity.getUsername());
 
-        long userId = userEntity.getId();
+        Long userId = userEntity.getId();
         userEntity = userRepository.findById(userId).orElse(null);
 
         assertNotNull(userEntity);

@@ -20,7 +20,7 @@ public class RoleRepositoryTest
     
     @Test
     public void testFindById() {
-        long id = 1;
+        Long id = 1L;
         RoleEntity roleEntity = repository.findById(id).orElse(null);
         assertNotNull(roleEntity);
         assertEquals(id, roleEntity.getId());

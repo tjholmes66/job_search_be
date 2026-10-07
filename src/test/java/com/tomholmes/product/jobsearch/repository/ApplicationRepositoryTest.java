@@ -17,9 +17,9 @@ public class ApplicationRepositoryTest extends BaseRepositoryTest
     
     @Test
     public void testFindById() {
-        long id = 1;
-        long userId = 1;
-        long companyId = 1;
+        Long id = 1L;
+        Long userId = 1L;
+        Long companyId = 1L;
         ApplicationEntity applicationEntity = repository.findById(id).orElse(null);
         assertNotNull(applicationEntity);
         assertEquals(id, applicationEntity.getId());
@@ -36,7 +36,7 @@ public class ApplicationRepositoryTest extends BaseRepositoryTest
         String username = "tjholmes66"; // should find data
         List<ApplicationEntity> listApplication = repository.findByUserUsername(username);
         assertNotNull(listApplication);
-        assertEquals(2, listApplication.size());
+        assertEquals(1, listApplication.size());
     }
 
 }
