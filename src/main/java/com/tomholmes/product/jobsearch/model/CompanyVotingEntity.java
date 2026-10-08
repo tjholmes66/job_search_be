@@ -16,7 +16,7 @@ import jakarta.persistence.Table;
 /*
  * CREATE TABLE `company_vote_tally` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `user_id` int NOT NULL,
+  `user_id` bigint NOT NULL,
   `company_id` int NOT NULL,
   `ghost_upvote` int NOT NULL,
   `upvote` int NOT NULL,
@@ -42,7 +42,7 @@ public class CompanyVotingEntity implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private UserEntity user;
+    private Long user;
 
     @ManyToOne
     @JoinColumn(name = "company_id")
@@ -67,9 +67,9 @@ public class CompanyVotingEntity implements Serializable {
         Id = id;
     }
 
-    public UserEntity getUser() { return user; }
+    public Long getUser() { return user; }
 
-    public void setUser(UserEntity user) { this.user = user; }
+    public void setUser(Long user) { this.user = user; }
 
     public CompanyVotingEntity getCompany() { return company; }
 
