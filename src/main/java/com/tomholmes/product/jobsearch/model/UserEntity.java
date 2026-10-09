@@ -15,6 +15,7 @@ import jakarta.persistence.Table;
  * CREATE TABLE `user` (
   `id` int NOT NULL AUTO_INCREMENT,
   `username` varchar(45) NOT NULL,
+  `keycloak_id` bigint NOT NULL,
   `email` varchar(45) NOT NULL,
   `first_name` varchar(45) NOT NULL,
   `last_name` varchar(45) NOT NULL,
@@ -38,6 +39,10 @@ public class UserEntity implements Serializable
     // `username` varchar(45) NOT NULL,
     @Column(name = "username")
     private String username;
+
+    // `keycloak_id` bigint NOT NULL,
+    @Column(name = "keycloak_id")
+    private Long keycloakId;
 
     // `first_name` varchar(45) DEFAULT NULL,
     @Column(name = "first_name")
@@ -94,6 +99,10 @@ public class UserEntity implements Serializable
     {
         this.username = username;
     }
+
+    public Long getKeyCloakId() { return keycloakId; }
+
+    public void setKeyCloakId(Long keycloakId) { this.keycloakId = keycloakId; }
 
     public String getFirstName()
     {
@@ -178,7 +187,7 @@ public class UserEntity implements Serializable
     @Override
     public int hashCode()
     {
-        return Objects.hash(Id, cellPhone, createdBy, createdDate, email, enabled, firstName, lastName, updatedBy, updatedDate, username);
+        return Objects.hash(Id, cellPhone, createdBy, createdDate, email, enabled, firstName, lastName, updatedBy, updatedDate, keycloakId, username);
     }
 
     @Override
@@ -193,13 +202,13 @@ public class UserEntity implements Serializable
         UserEntity other = (UserEntity) obj;
         return Id == other.Id && Objects.equals(cellPhone, other.cellPhone) && createdBy == other.createdBy && Objects.equals(createdDate, other.createdDate) && Objects.equals(email, other.email)
             && enabled == other.enabled && Objects.equals(firstName, other.firstName) && Objects.equals(lastName, other.lastName) && updatedBy == other.updatedBy
-            && Objects.equals(updatedDate, other.updatedDate) && Objects.equals(username, other.username);
+            && Objects.equals(updatedDate, other.updatedDate) && Objects.equals(username, other.username) && Objects.equals(keycloakId, other.keycloakId);
     }
 
     @Override
     public String toString()
     {
-        return "UserEntity [Id=" + Id + ", enabled=" + enabled + ", username=" + username + ", firstName=" + firstName + ", lastName=" + lastName + ", createdBy=" + createdBy + ", createdDate="
+        return "UserEntity [Id=" + Id + ", enabled=" + enabled + ", username=" + username + ", keycloakId=" + keycloakId + ", firstName=" + firstName + ", lastName=" + lastName + ", createdBy=" + createdBy + ", createdDate="
             + createdDate + ", updatedBy=" + updatedBy + ", updatedDate=" + updatedDate + ", email=" + email + ", cellPhone=" + cellPhone + "]";
     }
     

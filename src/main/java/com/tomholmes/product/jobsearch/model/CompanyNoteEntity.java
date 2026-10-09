@@ -16,7 +16,7 @@ import jakarta.persistence.Table;
 /*
 CREATE TABLE `company_note` (
         `id` bigint NOT NULL AUTO_INCREMENT,
-         `company_id` bigint NOT NULL,
+        `company_id` bigint NOT NULL,
         `note_date` datetime NOT NULL,
         `is_active` tinyint(1) NOT NULL DEFAULT '0',
         `notes` text NOT NULL,
