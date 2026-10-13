@@ -3,9 +3,11 @@ package com.tomholmes.product.jobsearch.repository;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -198,6 +200,16 @@ public class UserRepositoryTest
         assertEquals(emailAddress, userEntity.getEmail());
 
         System.out.println("testGetUserEntityByEmailAddress: FINISH");
+    }
+
+    @Test
+    public void testGetUserEntityByKeycloakId()
+    {
+        String keycloakId = "56f3b625-0c1f-47ea-80d1-5efff93f2194";
+        Optional<UserEntity> userEntity = userRepository.findByKeycloakId(keycloakId);
+        assertNotNull(userEntity);
+        assertTrue(userEntity.isPresent());
+        assertEquals(keycloakId, userEntity.get().getKeycloakId());
     }
 
 }

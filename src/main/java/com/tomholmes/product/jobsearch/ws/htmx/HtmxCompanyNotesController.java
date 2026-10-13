@@ -3,6 +3,7 @@ package com.tomholmes.product.jobsearch.ws.htmx;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.tomholmes.product.jobsearch.service.CompanyNoteService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,11 +22,11 @@ import com.tomholmes.product.jobsearch.service.CompanyService;
 public class HtmxCompanyNotesController {
 
     private final CompanyService companyService;
-    private final CompanyNoteRepository companyNoteRepository;
+    private final CompanyNoteService companyNoteService;
 
-    public HtmxCompanyNotesController(CompanyService companyService, CompanyNoteRepository companyNoteRepository) {
+    public HtmxCompanyNotesController(CompanyService companyService, CompanyNoteService companyNoteService) {
         this.companyService = companyService;
-        this.companyNoteRepository = companyNoteRepository;
+        this.companyNoteService = companyNoteService;
     }
 
     // 1. Renders the full main page initially for companies
@@ -43,7 +44,7 @@ public class HtmxCompanyNotesController {
         model.addAttribute("company", company);
         model.addAttribute("companies", companyService.getAllCompanies());
 
-        List<CompanyNoteEntity> notes = companyNoteRepository.findByCompanyId(companyId);
+        List<CompanyNoteEntity> notes = companyNoteService.getCompanyNotesByCompanyId(companyId);
         model.addAttribute("notes", notes);
 
         return "fragments/company_notes_ee";
@@ -60,7 +61,7 @@ public class HtmxCompanyNotesController {
     // 3. Return just the notes list (for HTMX refresh)
     @GetMapping("/{companyId}/notes")
     public String getNotesList(@PathVariable Long companyId, Model model) {
-        List<CompanyNoteEntity> notes = companyNoteRepository.findByCompanyId(companyId);
+        List<CompanyNoteEntity> notes = companyNoteService.getCompanyNotesByCompanyId(companyId);
         model.addAttribute("notes", notes);
         return "fragments/company_notes_ee :: notes-list";
     }
@@ -75,9 +76,9 @@ public class HtmxCompanyNotesController {
         note.setCreatedDate(LocalDateTime.now());
         note.setUpdatedBy(1L);
         note.setUpdatedDate(LocalDateTime.now());
-        companyNoteRepository.save(note);
+        companyNoteService.createCompanyNote(note);
 
-        List<CompanyNoteEntity> notes = companyNoteRepository.findByCompanyId(companyId);
+        List<CompanyNoteEntity> notes = companyNoteService.getCompanyNotesByCompanyId(companyId);
         model.addAttribute("notes", notes);
         return "fragments/company_notes_ee :: notes-list";
     }

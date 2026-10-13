@@ -10,8 +10,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class CompanyVotingServiceImpl implements CompanyVotingService {
 
-    private CompanyVotingRepository companyVotingRepository;
-    public CompanyVotingServiceImpl(CompanyVotingRepository companyVotingRepository) { this.companyVotingRepository = companyVotingRepository; }
+    private final CompanyVotingRepository companyVotingRepository;
+
+    public CompanyVotingServiceImpl(CompanyVotingRepository companyVotingRepository) {
+        this.companyVotingRepository = companyVotingRepository;
+    }
 
     @Override
     public CompanyVotingEntity createGhostVote(CompanyVotingEntity newGhostVote) {

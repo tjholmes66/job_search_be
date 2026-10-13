@@ -2,21 +2,27 @@ package com.tomholmes.product.jobsearch.service;
 
 import com.tomholmes.product.jobsearch.model.CompanyEntity;
 import com.tomholmes.product.jobsearch.model.CompanyNoteEntity;
+import com.tomholmes.product.jobsearch.model.UserEntity;
 import com.tomholmes.product.jobsearch.repository.CompanyNoteRepository;
+import com.tomholmes.product.jobsearch.repository.UserRepository;
+import com.tomholmes.product.jobsearch.utils.SecurityUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
 public class CompanyNoteServiceImpl implements CompanyNoteService {
 
     private final CompanyNoteRepository companyNoteRepository;
+    private final UserRepository userRepository;
 
-    public CompanyNoteServiceImpl(CompanyNoteRepository companyNoteRepository) {
+    public CompanyNoteServiceImpl(CompanyNoteRepository companyNoteRepository, UserRepository userRepository) {
         this.companyNoteRepository = companyNoteRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -39,21 +45,32 @@ public class CompanyNoteServiceImpl implements CompanyNoteService {
     }
 
     @Override
-    public CompanyNoteEntity createCompanyNote(CompanyNoteEntity newNote) {
+    public CompanyNoteEntity createCompanyNote(CompanyNoteEntity newNote)
+    {
 
-        newNote.setCreatedBy(1L);  // default for now
+        Optional<String> keycloakIdOpt = SecurityUtils.getCurrentUserKeycloakId();
+        String keyCloakId = keycloakIdOpt.orElseThrow(() -> new IllegalStateException("No authenticated user"));
+        Optional<UserEntity> userEntity = userRepository.findByKeycloakId(keyCloakId);
+        Long userId = userEntity.get().getId();
+
+        newNote.setCreatedBy(userId);  // default for now
         newNote.setCreatedDate(LocalDateTime.now());
-        newNote.setUpdatedBy(1L);  // default for now
+        newNote.setUpdatedBy(userId);  // default for now
         newNote.setUpdatedDate(LocalDateTime.now());
 
-        CompanyNoteEntity noteEntity = companyNoteRepository.save(newNote);
+        CompanyNoteEntity noteEntity = companyNoteRepository.saveAndFlush(newNote);
         return noteEntity;
     }
 
     @Override
     public CompanyNoteEntity updateCompanyNote(CompanyNoteEntity companyNote)
     {
-        companyNote.setUpdatedBy(1L);  // default for now
+        Optional<String> keycloakIdOpt = SecurityUtils.getCurrentUserKeycloakId();
+        String keyCloakId = keycloakIdOpt.orElseThrow(() -> new IllegalStateException("No authenticated user"));
+        Optional<UserEntity> userEntity = userRepository.findByKeycloakId(keyCloakId);
+        Long userId = userEntity.get().getId();
+
+        companyNote.setUpdatedBy(userId);  // default for now
         companyNote.setUpdatedDate(LocalDateTime.now());
 
         CompanyNoteEntity updatedNote = companyNoteRepository.saveAndFlush(companyNote);

@@ -8,7 +8,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -60,8 +59,6 @@ public class HtmxDashboardController {
                 List<Map<String, String>> subMenuItems = new ArrayList<>();
                 subMenuItems.add(Map.of("name", "My Applications", "url", "/"));
                 subMenuItems.add(Map.of("name", "Company Notes", "url", "/company-notes/companies"));
-                subMenuItems.add(Map.of("name", "System Settings", "url", "/settings"));
-                subMenuItems.add(Map.of("name", "My Applications", "url", "/app/user"));
                 menuItems.put("User Menu", subMenuItems);
             }
         }

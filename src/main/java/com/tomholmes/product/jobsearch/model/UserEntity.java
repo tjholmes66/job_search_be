@@ -65,6 +65,19 @@ public class UserEntity implements Serializable
     @Column(name = "cell_phone")
     private String cellPhone;
 
+    @Column(name = "keycloak_id")
+    private String keycloakId;
+
+    public LocalDateTime getUpdatedDate()
+    {
+        return updatedDate;
+    }
+
+    public void setUpdatedDate(LocalDateTime updatedDate)
+    {
+        this.updatedDate = updatedDate;
+    }
+
     public Long getId()
     {
         return Id;
@@ -145,16 +158,6 @@ public class UserEntity implements Serializable
         this.updatedBy = updatedBy;
     }
 
-    public LocalDateTime getUpdatedDate()
-    {
-        return updatedDate;
-    }
-
-    public void setUpdatedDate(LocalDateTime updatedDate)
-    {
-        this.updatedDate = updatedDate;
-    }
-
     public String getEmail()
     {
         return email;
@@ -175,34 +178,36 @@ public class UserEntity implements Serializable
         this.cellPhone = cellPhone;
     }
 
-    @Override
-    public int hashCode()
+    public String getKeycloakId()
     {
-        return Objects.hash(Id, cellPhone, createdBy, createdDate, email, enabled, firstName, lastName, updatedBy, updatedDate, username);
+        return keycloakId;
+    }
+
+    public void setKeycloakId(String keycloakId)
+    {
+        this.keycloakId = keycloakId;
     }
 
     @Override
-    public boolean equals(Object obj)
+    public boolean equals(Object o)
     {
-        if (this == obj)
-            return true;
-        if (obj == null)
+        if (o == null || getClass() != o.getClass())
             return false;
-        if (getClass() != obj.getClass())
-            return false;
-        UserEntity other = (UserEntity) obj;
-        return Id == other.Id && Objects.equals(cellPhone, other.cellPhone) && createdBy == other.createdBy && Objects.equals(createdDate, other.createdDate) && Objects.equals(email, other.email)
-            && enabled == other.enabled && Objects.equals(firstName, other.firstName) && Objects.equals(lastName, other.lastName) && updatedBy == other.updatedBy
-            && Objects.equals(updatedDate, other.updatedDate) && Objects.equals(username, other.username);
+        UserEntity that = (UserEntity) o;
+        return enabled == that.enabled && Objects.equals(Id, that.Id) && Objects.equals(username, that.username) && Objects.equals(firstName, that.firstName) && Objects.equals(lastName,
+        that.lastName) && Objects.equals(createdBy, that.createdBy) && Objects.equals(createdDate, that.createdDate) && Objects.equals(updatedBy, that.updatedBy) && Objects.equals(updatedDate,
+        that.updatedDate) && Objects.equals(email, that.email) && Objects.equals(cellPhone, that.cellPhone) && Objects.equals(keycloakId, that.keycloakId);
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(Id, enabled, username, firstName, lastName, createdBy, createdDate, updatedBy, updatedDate, email, cellPhone, keycloakId);
     }
 
     @Override
     public String toString()
     {
-        return "UserEntity [Id=" + Id + ", enabled=" + enabled + ", username=" + username + ", firstName=" + firstName + ", lastName=" + lastName + ", createdBy=" + createdBy + ", createdDate="
-            + createdDate + ", updatedBy=" + updatedBy + ", updatedDate=" + updatedDate + ", email=" + email + ", cellPhone=" + cellPhone + "]";
+        return "UserEntity{" + "Id=" + Id + ", enabled=" + enabled + ", username='" + username + '\'' + ", firstName='" + firstName + '\'' + ", lastName='" + lastName + '\'' + ", createdBy=" + createdBy + ", createdDate=" + createdDate + ", updatedBy=" + updatedBy + ", updatedDate=" + updatedDate + ", email='" + email + '\'' + ", cellPhone='" + cellPhone + '\'' + ", keycloakId='" + keycloakId + '\'' + '}';
     }
-    
-    
-
 }
