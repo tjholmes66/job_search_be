@@ -1,22 +1,30 @@
 package com.tomholmes.product.jobsearch.config;
 
-import com.tomholmes.product.jobsearch.utils.KeycloakRoleConverter;
+import com.tomholmes.product.jobsearch.service.CustomOidcUserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserRequest;
-import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserService;
-import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
-import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
-import org.springframework.security.oauth2.core.oidc.user.OidcUser;
+import org.springframework.security.oauth2.client.oidc.web.logout.OidcClientInitiatedLogoutSuccessHandler;
+import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+
+    private final CustomOidcUserService customOidcUserService;
+    private final ClientRegistrationRepository clientRegistrationRepository;
+
+    public SecurityConfig(CustomOidcUserService customOidcUserService,
+    ClientRegistrationRepository clientRegistrationRepository)
+    {
+        this.customOidcUserService = customOidcUserService;
+        this.clientRegistrationRepository = clientRegistrationRepository;
+    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -42,33 +50,33 @@ public class SecurityConfig {
                         .defaultSuccessUrl("/dashboard", true)
                         // CRITICAL FIX: Bind the OidcUserService bean here
                         .userInfoEndpoint(userInfo -> userInfo
-                                .oidcUserService(oidcUserService())
+                            .oidcUserService(customOidcUserService)
                         )
                 )
                 // 3. Configure CSRF protection
                 .csrf(csrf -> csrf
                         .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
                         .csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler())
+                )
+                // 4. Configure OAuth2 Logout
+                .logout(logout -> logout
+                    .logoutUrl("/logout") // Spring Security's default logout endpoint
+                    .logoutSuccessHandler(oidcLogoutSuccessHandler())
+                    .invalidateHttpSession(true)
+                    .clearAuthentication(true)
+                    .deleteCookies("JSESSIONID")
                 );
 
         return http.build();
     }
 
-    // CRITICAL FIX: Added @Bean so Spring recognizes and can use this mapper
-    @Bean
-    public OAuth2UserService<OidcUserRequest, OidcUser> oidcUserService() {
-        OidcUserService delegate = new OidcUserService();
-        KeycloakRoleConverter roleConverter = new KeycloakRoleConverter();
+    private LogoutSuccessHandler oidcLogoutSuccessHandler() {
+        OidcClientInitiatedLogoutSuccessHandler oidcLogoutSuccessHandler =
+        new OidcClientInitiatedLogoutSuccessHandler(this.clientRegistrationRepository);
 
-        return userRequest -> {
-            OidcUser oidcUser = delegate.loadUser(userRequest);
-
-            // Extract combined roles and groups from the ID Token
-            var mappedAuthorities = roleConverter.convert(userRequest.getIdToken());
-
-            // Keycloak generally sets the default username field to "preferred_username"
-            return new DefaultOidcUser(mappedAuthorities, oidcUser.getIdToken(), oidcUser.getUserInfo(), "preferred_username");
-        };
+        // Where Keycloak should redirect the user AFTER logging out from Keycloak
+        oidcLogoutSuccessHandler.setPostLogoutRedirectUri("{baseUrl}/index.html");
+        return oidcLogoutSuccessHandler;
     }
 
 }

@@ -64,6 +64,9 @@
         <span th:text="${name}">Guest User</span>
         <small th:text="'(' + ${email} + ')'">No email provided</small>
         <small th:text="'(' + ${username} + ')'">anonymous</small>
+        <form th:action="@{/logout}" method="post" style="display: inline;">
+            <button type="submit" class="toggle-btn" style="margin-left: 15px;">Logout</button>
+        </form>
     </div>
 </header>
 

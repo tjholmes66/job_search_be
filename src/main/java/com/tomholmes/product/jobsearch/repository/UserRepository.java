@@ -5,6 +5,8 @@ import org.springframework.data.jpa.repository.Query;
 
 import com.tomholmes.product.jobsearch.model.UserEntity;
 
+import java.util.Optional;
+
 public interface UserRepository extends JpaRepository<UserEntity, Long>
 {
     @Query(value = "from UserEntity u where (u.email = :email)")
@@ -12,4 +14,6 @@ public interface UserRepository extends JpaRepository<UserEntity, Long>
 
     @Query(value = "from UserEntity u where (u.username = :username)")
     UserEntity findUserEntityByUsername(String username);
+
+    Optional<UserEntity> findByKeycloakId(String keycloakId);
 }

@@ -7,6 +7,7 @@ import java.util.List;
 public interface ApplicationService {
 
     // CREATE
+    ApplicationEntity createApplication(ApplicationEntity applicationEntity);
 
     // RETRIEVE
     List<ApplicationEntity> findAll();
@@ -16,6 +17,7 @@ public interface ApplicationService {
     ApplicationEntity getById(Long id);
 
     // UPDATE
+    ApplicationEntity updateApplication(ApplicationEntity applicationEntity);
 
     // DELETE - soft-delete
 

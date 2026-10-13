@@ -33,7 +33,7 @@ public class ApplicationRepositoryTest extends BaseRepositoryTest
 
     @Test
     public void testFindByUsername() {
-        String username = "tjholmes66"; // should find data
+        String username = "tom@tomholmes.net"; // should find data
         List<ApplicationEntity> listApplication = repository.findByUserUsername(username);
         assertNotNull(listApplication);
         assertEquals(1, listApplication.size());
